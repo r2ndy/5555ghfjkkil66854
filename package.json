@@ -2,9 +2,9 @@
   "name": "Your Name",
   "description": "AnyThing",
   "version": "0.0.0",
-  "main": "bot.js",
+  "main": "victoria.js",
   "scripts": {
-    "start": "node bot.js"
+    "start": "node victoria.js"
   },
   "dependencies": {
    "discord.js": "^11.3.2",
