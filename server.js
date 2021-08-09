@@ -101,34 +101,7 @@ client.on('message', message => {
 /////////////////////////////////////////////////////
 //////// يوزر 
 
-client.on('message', message => {
-  if (message.content.startsWith(prefix + "user")) {
-    var args = message.content.split(" ").slice(1);
-    let user = message.mentions.users.first();
-    var men = message.mentions.users.first();
-    var heg;
-    if (men) {
-      heg = men
-    } else {
-      heg = message.author
-    }
-    var mentionned = message.mentions.members.first();
-    var h;
-    if (mentionned) {
-      h = mentionned
-    } else {
-      h = message.member
-    }
-    moment.locale('ar-TN');
-    var id = new Discord.RichEmbed()
-      .setAuthor(message.author.username, message.author.avatarURL)
-      .setColor(`RANDOM`)
-      .addField('**JOINED DISCORD :**', `${moment(heg.createdTimestamp).format('YYYY/M/D')} **\n** \`${moment(heg.createdTimestamp).fromNow()}\``, true)
-      .addField('**JOINED SERVER :**', `${moment(h.joinedAt).format('YYYY/M/D')} \n \`${moment(h.joinedAt).fromNow()}\``, true)
-      .setThumbnail(heg.avatarURL);
-    message.channel.send(id)
-  }
-});
+
 
 /////////////////////////////////////////////////////
 /////// معلومات السيرفر ///// 
@@ -312,101 +285,67 @@ client.on('message', message => {
 
 ///////////////////////////////////////////
 ///////////////////////////// التوب 
-client.on("message", async function(message) {
 
-  if (message.author.bot) return;
-  if (!message.guild) return;
-  if (!top[message.guild.id]) top[message.guild.id] = {};
-  if (!top[message.guild.id][message.author.id]) top[message.guild.id][message.author.id] = {
-    "text": parseInt(Math.random() * 10),
-    "voice": 1,
-    "msgs": 0,
-    "id": message.author.id
-  }
-  if (top[message.guild.id][message.author.id].msgs > 10) {
-    top[message.guild.id][message.author.id].text += parseInt(Math.random() * 4);
-    top[message.guild.id][message.author.id].msgs = 0;
-  }
-  save();
-  var args = message.content.split(" ");
-  var cmd = args[0].toLowerCase();
+////////////////////////////////////////////////////
+///////////
+client.on('message', async message =>{
+    if (message.author.boss) return;
+      var prefix = "#";
+  
   if (!message.content.startsWith(prefix)) return;
-  if (message.content.startsWith(prefix + "top text")) {
-    var topArray = Object.values(top[message.guild.id]);
-    var num = 0;
-    var textStr = `${topArray.sort((a, b) => b.text - a.text).slice(0, 5).filter(user => user.text > 0 && message.guild.members.get(user.id)).map(function(user) {
-      if (user.text > 0) {
-        return `**#${++num} | <@${user.id}> XP: \`${user.text}\` **`
-      }
-    }).join("\n")}`;
-    var embed = new Discord.RichEmbed()
-      .setAuthor("?? | Guild Score Leaderboards", message.guild.iconURL)
-      .setColor(`RED`)
-      .addField(`**:speech_balloon: | TEXT LEADERBOARD**`, `${textStr}   \n\n\n **\`${prefix}top text\`**`, true)
-      .setFooter(message.author.tag, message.author.displayAvatarURL)
-      .setTimestamp()
-    message.channel.send({
-      embed: embed
-    });
-    //   if (!message.content.startsWith(prefix)) return;
-  } else {
-    if (message.content.startsWith(prefix + "top voice")) {
-      var topArray = Object.values(top[message.guild.id]);
-      var num = 0;
-      var voiceStr = `${topArray.sort((a, b) => b.voice - a.voice).slice(0, 5).filter(user => user.voice > 0 && message.guild.members.get(user.id)).map(function(user) {
-        if (user.voice > 0) {
-          return `**#${++num} | <@${user.id}> XP: \`${user.voice}\` **`
-        }
-      }).join("\n")}`;
-      var embed = new Discord.RichEmbed()
-        .setAuthor("?? | Guild Score Leaderboards", message.guild.iconURL)
-        .setColor(`RED`)
-        .addField(`**:microphone2: | VOICE LEADERBOARD**`, `${voiceStr}   \n\n\n **:sparkles:\`${prefix}top voice\``, true)
-
-        .setFooter(message.author.tag, message.author.displayAvatarURL)
-        .setTimestamp()
-      message.channel.send({
-        embed: embed
-      });
-
-
-      //  break;
-      // if (!message.content.startsWith(prefix)) return;
-    } else {
-      if (message.content.startsWith(prefix + "top")) {
-        var topArray = Object.values(top[message.guild.id]);
-        var num = 0;
-        var textStr = `${topArray.sort((a, b) => b.text - a.text).slice(0, 10).filter(user => user.text > 0 && message.guild.members.get(user.id)).map(function(user) {
-          if (user.text > 0) {
-            return `**#${++num} | <@${user.id}> XP: \`${user.text}\` **`
-          }
-        }).join("\n")}`;
-        num = 0;
-        var voiceStr = `${topArray.sort((a, b) => b.voice - a.voice).slice(0, 10).filter(user => user.voice > 0 && message.guild.members.get(user.id)).map(function(user) {
-          if (user.voice > 0) {
-            return `**#${++num} | <@${user.id}> XP: \`${user.voice}\` **`
-          }
-        }).join("\n")}`;
-        var embed = new Discord.RichEmbed()
-          .setAuthor("?? | Guild Score Leaderboards", message.guild.iconURL)
-          .addField("**TOP 5 TEXT :speech_balloon:**", `${textStr}  \n\n  **:sparkles: More?** \`${prefix}top text\``, true)
-          .addField("**TOP 5 VOICE :microphone2:**", `${voiceStr} \n\n **:sparkles: More?** \`${prefix}top voice\``, true)
-          .setFooter(message.author.tag, message.author.displayAvatarURL)
-          .setTimestamp()
-          .setColor(`RED`);
-        message.channel.send({
-          embed: embed
-
-
-        });
-
-
-
-      }
+      let command = message.content.split(" ")[0];
+       command = command.slice(prefix.length);
+      let args = message.content.split(" ").slice(1);
+      if (command == "mute") {
+          if (!message.channel.guild) return;
+          if(!message.guild.member(message.author).hasPermission("MANAGE_MESSAGES")) return message.reply("انت لا تملك صلاحيات !! ").then(msg => msg.delete(5000));
+          if(!message.guild.member(client.user).hasPermission("MANAGE_MESSAGES")) return message.reply("البوت لايملك صلاحيات ").then(msg => msg.delete(5000));;
+          let user = message.mentions.users.first();
+          let muteRole = message.guild.roles.find("name", "Muted");
+          if (!muteRole) return message.reply("** لا يوجد رتبة الميوت 'Muted' **").then(msg => {msg.delete(5000)});
+          if (message.mentions.users.size < 1) return message.reply('** يجب عليك المنشن اولاً **').then(msg => {msg.delete(5000)});
+          let reason = message.content.split(" ").slice(2).join(" ");
+          message.guild.member(user).addRole(muteRole);
+          const muteembed = new Discord.RichEmbed()
+          .setColor("RANDOM")
+          .setAuthor(`Muted!`, user.displayAvatarURL)
+          .setThumbnail(user.displayAvatarURL)
+          .addField("**:busts_in_silhouette:  المستخدم**",  '**[ ' + `${user.tag}` + ' ]**',true)
+          .addField("**:hammer:  تم بواسطة **", '**[ ' + `${message.author.tag}` + ' ]**',true)
+          .addField("**:book:  السبب**", '**[ ' + `${reason}` + ' ]**',true)
+          .addField("User", user, true)
+          message.channel.send({embed : muteembed});
+          var muteembeddm = new Discord.RichEmbed()
+          .setAuthor(`Muted!`, user.displayAvatarURL)
+          .setDescription(`      
+  ${user} انت معاقب بميوت كتابي بسبب مخالفة القوانين
+  ${message.author.tag} تمت معاقبتك بواسطة
+  [ ${reason} ] : السبب
+  اذا كانت العقوبة عن طريق الخطأ تكلم مع المسؤلين
+  `)
+          .setFooter(`في سيرفر : ${message.guild.name}`)
+          .setColor("RANDOM")
+      user.send( muteembeddm);
     }
-  }
-
-});
+  if(command === `unmute`) {
+    if(!message.member.hasPermission("MANAGE_MESSAGES")) return message.channel.sendMessage("**ليس لديك صلاحية لفك عن الشخص ميوت**:x: ").then(m => m.delete(5000));
+  if(!message.guild.member(client.user).hasPermission("MANAGE_MESSAGES")) return message.reply("**ما عندي برمشن**").then(msg => msg.delete(6000))
+  
+    let toMute = message.guild.member(message.mentions.users.first()) || message.guild.members.get(args[0]);
+    if(!toMute) return message.channel.sendMessage("**عليك المنشن أولاّ**:x: ");
+  
+    let role = message.guild.roles.find (r => r.name === "Muted");
+    
+    if(!role || !toMute.roles.has(role.id)) return message.channel.sendMessage("**لم يتم اعطاء هذه شخص ميوت من الأساس**:x:")
+  
+    await toMute.removeRole(role)
+    message.channel.sendMessage("**لقد تم فك الميوت عن شخص بنجاح**:white_check_mark:");
+  
+    return;
+  
+    }
+  
+  });
 
 client.login(process.env.BOT_TOKEN);
 
