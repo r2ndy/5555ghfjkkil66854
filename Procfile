@@ -1,1 +1,1 @@
- worker: node victoria.js
+ worker: node server.js
