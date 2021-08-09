@@ -100,50 +100,8 @@ client.on('message', message => {
   })
 /////////////////////////////////////////////////////
 //////// يوزر /////
-client.on("message", message => {
-  if (message.content.startsWith(prefix + "user")) {
-    var args = message.content.split(" ").slice(1);
-    let user = message.mentions.users.first();
-    var men = message.mentions.users.first();
-    var heg;
-    if (men) {
-      heg = men;
-    } else {
-      heg = message.author;
-    }
-    var mentionned = message.mentions.members.first();
-    var h;
-    if (mentionned) {
-      h = mentionned;
-    } else {
-      h = message.member;
-    }
-    moment.locale("en-TN");
-    var id = new Discord.RichEmbed()
-      .setAuthor(message.author.username, message.author.avatarURL)
-      .setColor("RANDOM")
-      .addField(
-        " Joined Discord At : ",
-        `${moment(heg.createdTimestamp).format(
-          "YYYY/M/D HH:mm:ss"
-        )} **\n** \`${moment(heg.createdTimestamp).fromNow()}\``,
-        true
-      )
-      .addField(
-        " Joined Server At : ",
-        `${moment(h.joinedAt).format("YYYY/M/D HH:mm:ss")} \n \`${moment(
-          h.joinedAt
-        ).fromNow()}\``,
-        true
-      )
-      .setFooter(
-        `${message.author.username}`,
-        "https://cdn.discordapp.com/attachments/808393932957810779/808977834780786728/PicsArt_02-08-01.20.27.jpg"
-      )
-      .setThumbnail(heg.avatarURL);
-    message.channel.send(id);
-  }
-});
+
+
 
 /////////////////////////////////////////////////////
 /////// معلومات السيرفر ///// 
@@ -204,77 +162,78 @@ if (!prefixes[msg.guild.id]) prefixes[msg.guild.id] = {
 
 /////////////////////////////////////////////////////////
 ///////// فقل و فتح الشات ////////////
-client.on("message", message => {
-  if (message.content === prefix + "lock") {
-    if (!message.channel.guild)
-      return message.reply("** This command only for servers**");
+client.on('message', message =>{
+  if(message.content.startsWith(prefix +"lock")) { 
 
-    if (!message.member.hasPermission("MANAGE_MESSAGES"))
-      return message.reply(" **you not have permission  **");
-    message.channel
-      .overwritePermissions(message.guild.id, {
-        SEND_MESSAGES: false
-      })
-      .then(() => {
-        message.reply("**done chat closed✅ **");
-      });
-  }
+    var embed = new Discord.MessageEmbed()
+    .setDescription(`**You Have 20s To Type The Password**`)
+    message.channel.send(embed)
 
-  if (message.content === prefix + "unlock") {
-    if (!message.channel.guild)
-      return message.reply("** This command only for servers**");
+    message.channel.awaitMessages(response => response.content === '1234', {//تقدر تغير الباسور
+      max: 1,
+      time: 200000,
+      errors: ['time'],    
+    })
+  
+    .then(() => {
+      if(!message.member.hasPermission('MANAGE_CHANNELS')) return 
+      message.reply(' ** You dont have `MANAGE_CHANNELS` permission **');
 
-    if (!message.member.hasPermission("MANAGE_MESSAGES"))
-      return message.reply("**  you don't have permission**");
-    message.channel
-      .overwritePermissions(message.guild.id, {
-        SEND_MESSAGES: true
-      })
-      .then(() => {
-        message.reply("**done chat opened  ✅**");
-      });
-  }
+
+  let everyone = message.guild.roles.cache.find(message => message.name === '@everyone');
+          message.channel.createOverwrite(everyone, {
+                 SEND_MESSAGES: false
+              })
+              .then((collected) => {
+                const embed = new Discord.MessageEmbed()
+                  .setColor("#48ff00")
+                  .setDescription(`** تـم قـفل الـروم 🔒**`)
+                  .setFooter(`By ${message.author.username}`)
+                  message.channel.send(embed)            
+                  console.log(collected.author)
+ });
 });
+}
+ });
+   client.on('message', message =>{
+if(message.content === prefix +"unlock"){
+if(!message.member.hasPermission('MANAGE_CHANNELS')) return message.reply(' ** You dont have `MANAGE_CHANNELS` permission **');
+let everyone = message.guild.roles.cache.find(message => message.name === '@everyone');
+        message.channel.createOverwrite(everyone, {
+               SEND_MESSAGES: true
+            }).then(() => {
+                const embed = new Discord.MessageEmbed()
+                .setColor("#48ff00")
+                .setDescription(`** تـم فتـح الـروم 🔓**`)
+                .setFooter(`By ${message.author.username}`)
+                message.channel.send(embed)
+})
+}
+});
+
 //////////////////////////////////////////////////////
 ///////// مسح الشات //////
-client.on("message", async message => {
-  if (!message.content.startsWith(prefix)) return;
-  let command = message.content.split(" ")[0];
-  command = command.slice(prefix.length);
-  if (message.author.bot) return;
-  if (
-    message.content.startsWith(prefix + "clear") ||
-    message.content.startsWith(prefix + ".")
-  ) {
-    if (!message.channel.guild)
-      return message.reply("⛔ | This Command For Servers Only!");
-    if (!message.member.hasPermission("MANAGE_MESSAGES"))
-  
-        return message.channel.send(
-          "⛔ | You dont have **MANAGE_MESSAGES** Permission!"
-        );
-    if (!message.guild.member(client.user).hasPermission("MANAGE_MESSAGES"))
-  
-        return message.channel.send(
-          "⛔ | I dont have **MANAGE_MESSAGES** Permission!"
-        );
-    let args = message.content.split(" ").slice(1);
-    let messagecount = parseInt(args);
-    if (args > 99)
-      return message
-        .reply("**🛑 || Scans be les than 100.**")
-        .then(messages => messages.delete(5000));
-    if (!messagecount) args = "100";
+ client.on('message', message => {
+       var prefix = "#";
+      if (message.content.startsWith(prefix + 'clear')) {
+          if(!message.channel.guild) return message.reply('** This command only for servers **');
+        if (!message.member.hasPermission('MANAGE_MESSAGES')) return message.reply(`You Don't Have [*MANAGE_MESSAGES*] Permission `).catch(console.error);
+    message.delete()
+    if(!message.channel.guild) return;
+let args = message.content.split(" ").slice(1);
 
-      message.channel
-        .fetchMessages({ limit: messagecount + 1 })
-        .then(messages => message.channel.bulkDelete(messages));
+  const messagecount = parseInt(args.join(' '));
+
+  message.channel.fetchMessages({
   
-      message.channel
-        .send(`\`${args}\` : __The number of messages deleted __ `)
-        .then(messages => messages.delete(5000));
-  }
+    limit: messagecount
+
+}).then(messages => message.channel.bulkDelete(messages));
+  message.channel.send(`__${messagecount}__`+ " **Message Deleted  :skull_crossbones: **" ).then(msg => msg.delete(3000));
+};
+
 });
+
 /////////////////////////////////////////
 //////// الاعضاء المبندين ///////
 client.on('message', message => {
