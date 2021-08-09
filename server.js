@@ -101,7 +101,7 @@ client.on('message', message => {
 /////////////////////////////////////////////////////
 //////// يوزر 
 
-niro.on('message', message => {
+client.on('message', message => {
   if (message.content.startsWith(prefix + "user")) {
     var args = message.content.split(" ").slice(1);
     let user = message.mentions.users.first();
@@ -312,7 +312,7 @@ client.on('message', message => {
 
 ///////////////////////////////////////////
 ///////////////////////////// التوب 
-niro.on("message", async function(message) {
+client.on("message", async function(message) {
 
   if (message.author.bot) return;
   if (!message.guild) return;
