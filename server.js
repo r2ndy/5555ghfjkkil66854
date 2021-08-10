@@ -375,7 +375,7 @@ const lodeing = "🤔";
   }
 })
 //////////////////////
-باند و نزع الباند////////////// 
+///////////// باند وفك الباند /////////
 
 client.on("message", (message) => {
     if (message.content.toLowerCase().startsWith(prefix + "ban")) {
