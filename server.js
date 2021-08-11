@@ -50,53 +50,7 @@ client.on('message', message => {
 
 ////// افتااار //// 
 
- client.on('message', message =>{
-    
-    if(message.content.startsWith(prefix + 'avatar')){
-        let args = message.content.substring(prefix.length).split(" ");
-        
-        const user = message.mentions.users.first()
-        if (!user && !args[1]) {
-           
-           const uavatar = message.author.avatarURL({size: 4096, dynamic: true })
-           const embed3 = new Discord.MessageEmbed()
-               .setTitle(`${message.member.user.username} avatar`)
-               .setDescription(`[Avatar URL of **${message.member.user.username}**](${uavatar})`)
-               .setColor('RANDOM')
-               .setImage(uavatar)
-           message.channel.send(embed3)
-       } 
-      
-
-
-       if (args[1] === 'server') {
-        
-        const savatar = message.guild.iconURL()({size: 4096, dynamic: true })
-        const embed2 = new Discord.MessageEmbed()
-            .setTitle(`${message.guild.name} avatar`)
-            .setDescription(`[Avatar URL of **${message.guild.name}**](${savatar})`)
-            .setColor('RANDOM')
-            .setImage(savatar)
-        message.channel.send(embed2)
-       
-       }
-       
-               
-               
-       
-               if (user) {
-                   const avatar = user.displayAvatarURL({size: 4096, dynamic: true });
-       
-       
-                   const embed = new Discord.MessageEmbed()
-                       .setTitle(`${user.username} avatar`)
-                       .setDescription(`[Avatar URL of **${user.username}**](${avatar})`)
-                       .setColor('RANDOM')
-                       .setImage(avatar)
-                   message.channel.send(embed)
-               }
-       }
-  })
+ 
 /////////////////////////////////////////////////////
 //////// يوزر 
 
