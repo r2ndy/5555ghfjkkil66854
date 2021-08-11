@@ -102,18 +102,33 @@ client.on('message', message => {
 /////////////////////////////////////////////////////
 //////// يوزر 
 client.on('message', message => {
-  if (message.author.bot) return;
-  if (message.content.startsWith(prefix + 'id')) {
-    var user = message.guild.member (message.mentions.members.first() || message.author);
-      const embed = new Discord.MessageEmbed()
-  .setColor("RANDOM") 
-   .addField(`ID USER : [ ${user.id} ]`,`${user.user}`)
-   .setThumbnail(user.user.avatarURL())
-  .setFooter(`- Requested By: ${message.author.tag}`)
-  message.channel.send({embed});
-      }
-  });
-
+  if (message.content.startsWith(prefix + "user")) {
+    var args = message.content.split(" ").slice(1);
+    let user = message.mentions.users.first();
+    var men = message.mentions.users.first();
+    var heg;
+    if (men) {
+      heg = men
+    } else {
+      heg = message.author
+    }
+    var mentionned = message.mentions.members.first();
+    var h;
+    if (mentionned) {
+      h = mentionned
+    } else {
+      h = message.member
+    }
+    moment.locale('ar-TN');
+    var id = new Discord.RichEmbed()
+      .setAuthor(message.author.username, message.author.avatarURL)
+      .setColor(`RANDOM`)
+      .addField('**JOINED DISCORD :**', `${moment(heg.createdTimestamp).format('YYYY/M/D')} **\n** \`${moment(heg.createdTimestamp).fromNow()}\``, true)
+      .addField('**JOINED SERVER :**', `${moment(h.joinedAt).format('YYYY/M/D')} \n \`${moment(h.joinedAt).fromNow()}\``, true)
+      .setThumbnail(heg.avatarURL);
+    message.channel.send(id)
+  }
+});
 
 /////////////////////////////////////////////////////
 /////// معلومات السيرفر ///// 
