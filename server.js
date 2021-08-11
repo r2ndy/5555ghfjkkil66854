@@ -136,7 +136,7 @@ client.on('message', message => {
      
       message.guild.member(user).kick(7, user);
      
-      const banembed = new Discord.RichEmbed()
+       let member = new Discord.MessageEmbed()
       .setAuthor('Kicked !', user.displayAvatarURL)
       .setColor("RANDOM")
       .setTimestamp()
