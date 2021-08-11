@@ -101,44 +101,10 @@ client.on('message', message => {
   })
 /////////////////////////////////////////////////////
 //////// يوزر 
-client.on("message", msg => {
-  if(msg.content === '-' + "id") {
-      const embed = new Discord.MessageEmbed();
-  embed.addField("🔱| اسم الحساب :", `${msg.author.username}#${msg.author.discriminator}`, true)
-          .addField("🆔| الاي دي :", `${msg.author.id}`, true)
-          .setColor("RANDOM")
-          .setFooter(msg.author.username , msg.author.avatarURL)
-          .setThumbnail(`${msg.author.avatarURL}`)
-          .setTimestamp()
-          .setURL(`${msg.author.avatarURL}`)
-          .addField('📛| الحالة :', `${msg.author.presence.status.toUpperCase()}`, true)
-          .addField('🏅| الرتب : ', `${msg.member.roles.filter(r => r.name).size}`, true)
-          .addField('📅| تم الانضمام للديسكورد في :', `${msg.createdAt}`,true)
-      msg.channel.send({embed: embed})
-  }
-});
 
 /////////////////////////////////////////////////////
 /////// معلومات السيرفر ///// 
-client.on('message', function(msg) {
-    if(msg.content.startsWith ('-server')) {
-      if(!msg.channel.guild) return msg.reply('**:x: اسف لكن هذا الامر للسيرفرات فقط **');         
-      let embed = new Discord.RichEmbed()
-      .setColor('RANDOM')
-      .setThumbnail(msg.guild.iconURL)
-      .addField(':globe_with_meridians: **اسم السيرفر : **' , `**[ ${msg.guild.name} ]**`,true)
-      .addField(':earth_africa: ** موقع السيرفر :**',`**[ ${msg.guild.region} ]**`,true)
-      .addField(':military_medal:** الرتب :**',`**[ ${msg.guild.roles.size} ]**`,true)
-      .addField(':bust_in_silhouette:** عدد الاعضاء :**',`**[ ${msg.guild.memberCount} ]**`,true)
-      .addField(':white_check_mark:** عدد الاعضاء الاونلاين :**',`**[ ${msg.guild.members.filter(m=>m.presence.status == 'online').size} ]**`,true)
-      .addField(':pencil:** الرومات الكتابية :**',`**[ ${msg.guild.channels.filter(m => m.type === 'text').size} ]**`,true)
-      .addField(':loud_sound:** رومات الصوت :**',`**[ ${msg.guild.channels.filter(m => m.type === 'voice').size} ]**`,true)
-      .addField(':crown:** صاحب السيرفر :**',`**[ ${msg.guild.owner} ]**`,true)
-      .addField(':id:** ايدي السيرفر :**',`**[ ${msg.guild.id} ]**`,true)
-      .addField(':date:** تم عمل السيرفر في : **',msg.guild.createdAt.toLocaleString())
-      msg.channel.send({embed:embed});
-    }
-  });
+
 /////////////////////////////////////////////////////////
 ///////// فقل و فتح الشات ////////////
 client.on('message', message =>{
@@ -226,7 +192,60 @@ ${msgs.size} messages cleared
 
 ////////////////////
 ////////رول /////////
-
+  client.on("message", message => {
+        let roleembed = new Discord.RichEmbed()
+    .setDescription(`
+    أمثله على الأوامر :
+    -role @mention rolename : لأعطاء رتبة لعضو معين
+    -role all rolename : لأعطاء رتبة للجميع
+    -role humans rolename : لأعطاء رتبة للاشخاص فقط
+    -role bots rolename : لأعطاء رتبة لجميع البوتات`)
+    .setFooter('Requested by '+message.author.username, message.author.avatarURL)
+      var args = message.content.split(' ').slice(1);
+      var msg = message.content.toLowerCase();
+      if( !message.guild ) return;
+      if( !msg.startsWith( prefix + 'role' ) ) return;
+      if(!message.member.hasPermission('MANAGE_ROLES')) return message.channel.send(' **__ليس لديك صلاحيات__**');
+      if( msg.toLowerCase().startsWith( prefix + 'roleembed' ) ){
+          if( !args[0] ) return message.channel.sendEmbed(roleembed)
+          if( !args[1] ) return message.channel.sendEmbed(roleembed)
+          var role = msg.split(' ').slice(2).join(" ").toLowerCase();
+          var role1 = message.guild.roles.filter( r=>r.name.toLowerCase().indexOf(role)>-1 ).first();
+          if( !role1 ) return message.reply( '**:x: يرجى وضع الرتبة المراد اعطاءها الى الشخص**' );if( message.mentions.members.first() ){
+              message.mentions.members.first().addRole( role1 );
+              return message.reply('**:white_check_mark: [ '+role1.name+' ] رتبة [ '+args[0]+' ] تم اعطاء الى **');
+          }
+          if( args[0].toLowerCase() == "all" ){
+              message.guild.members.forEach(m=>m.addRole( role1 ))
+              return  message.reply('**:white_check_mark: [ '+role1.name+' ] تم اعطاء الى الكل رتبة**');
+          } else if( args[0].toLowerCase() == "bots" ){
+              message.guild.members.filter(m=>m.user.bot).forEach(m=>m.addRole(role1))
+              return  message.reply('**:white_check_mark: [ '+role1.name+' ] تم اعطاء الى البوتات رتبة**');
+          } else if( args[0].toLowerCase() == "humans" ){
+              message.guild.members.filter(m=>!m.user.bot).forEach(m=>m.addRole(role1))
+              return  message.reply('**:white_check_mark: [ '+role1.name+' ] تم اعطاء الى البشريين رتبة**');
+          }  
+      } else {
+          if( !args[0] ) return message.reply( '**:x: يرجى وضع الشخص المراد اعطائها الرتبة**' );
+          if( !args[1] ) return message.reply( '**:x: يرجى وضع الرتبة المراد اعطائها للشخص**' );
+          var role = msg.split(' ').slice(2).join(" ").toLowerCase();
+          var role1 = message.guild.roles.filter( r=>r.name.toLowerCase().indexOf(role)>-1 ).first();
+          if( !role1 ) return message.reply( '**:x: يرجى وضع الرتبة المراد اعطائها للشخص**' );if( message.mentions.members.first() ){
+              message.mentions.members.first().addRole( role1 );
+              return message.reply('**:white_check_mark: [ '+role1.name+' ] رتبة [ '+args[0]+' ] تم اعطاء **');
+          }
+          if( args[0].toLowerCase() == "all" ){
+              message.guild.members.forEach(m=>m.addRole( role1 ))
+              return  message.reply('**:white_check_mark: [ '+role1.name+' ] تم اعطاء الكل رتبة**');
+          } else if( args[0].toLowerCase() == "bots" ){
+              message.guild.members.filter(m=>m.user.bot).forEach(m=>m.addRole(role1))
+              return  message.reply('**:white_check_mark: [ '+role1.name+' ] تم اعطاء البوتات رتبة**');
+          } else if( args[0].toLowerCase() == "humans" ){
+              message.guild.members.filter(m=>!m.user.bot).forEach(m=>m.addRole(role1))
+              return  message.reply('**:white_check_mark: [ '+role1.name+' ] تم اعطاء البشريين رتبة**');
+          }
+      }
+  });
 ///////////////////////////////////////////
 ///////////////////////////// التوب 
 
