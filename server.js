@@ -53,7 +53,6 @@ client.on('message', message => {
 client.on('message', message => {
     var ncr_prefix = '#' //admins prefix
     var ncr_devs = '749064659457409106' //your id
-var ncr_token = 'ODUyMjMzMDY4NTY3MTk5Nzg1.YMD15Q.Bg52xVVkU6QJy5mkzfDl_eZgGN0' //bot token
     if (message.content.startsWith(ncr_prefix + "restart")) {
         if (!ncr_devs.includes(message.author.id)) return message.channel.send(` Only <@${devs.id}> Can Use This Command `);
  
@@ -70,9 +69,7 @@ var ncr_token = 'ODUyMjMzMDY4NTY3MTk5Nzg1.YMD15Q.Bg52xVVkU6QJy5mkzfDl_eZgGN0' //
         message.channel.send(RestartEmbed)
  
         client.destroy()
- 
- 
-        client.login(ncr_token)
+
             .then(console.log(`The Bot Restarted !!\n By : ${message.author.username} | ID : ${message.author.id}`))
         var res = new Discord.MessageEmbed()
             .setColor('RANDOM')
