@@ -250,8 +250,18 @@ user.roles.add(role1).then(() => {
 }); 
 
 ///////////////////////////////////////////
-///////////////////////////// التوب 
-
+///////////////////////////// ريستارت للبوت  
+const  d= ["749064659457409106"]
+client.on("message", message => {
+  if (message.content.startsWith(prefix + "restart")) {
+    if (!d.includes(message.author.id)) return message.reply("You are not my owner.");
+      message.channel.send("Done Restarted").then(() => {
+        client.destroy();
+        client.login(config.token);
+      });
+    }
+ 
+});
 ////////////////////////////////////////////////////
 ///////////
 
