@@ -53,6 +53,24 @@ client.on('message', message => {
  
 /////////////////////////////////////////////////////
 //////// يوزر 
+client.on("message", (x3mk) => {
+    if(x3mk.content.startsWith(prefix + "user")) {
+                  var args = x3mk.content.split(" ").slice(1);
+        let x3mkmen = x3mk.mentions.members.first() || x3mk.guild.members.cache.get(args[0]);
+if(!x3mkmen) x3mkmen = x3mk.member;
+        let x3mkem = new Discord.MessageEmbed()
+             .setAuthor(x3mkmen.user.username, x3mkmen.user.displayAvatarURL({ dynamic: true }))
+         .setColor("Black")
+        .addField(`**JOINED DISCORD**`, `**${moment(x3mkmen.user.createdTimestamp).format('YYYY/M/D')}**
+    **\`${moment(x3mkmen.user.createdTimestamp).fromNow()}\`**`, true)
+.addField(`**JOINED SERVER**`, `**${moment(x3mkmen.joinedAt).format('YYYY/M/D')} 
+\`${moment(x3mkmen.joinedAt).fromNow()}\`**`, true)
+       .setFooter(`Requested by: ${x3mk.author.username}#${x3mk.author.discriminator}`, x3mk.member.user.displayAvatarURL({ dynamic: true }))
+            .setTimestamp()
+
+x3mk.channel.send(x3mkem)
+    }
+}) 
 
 /////////////////////////////////////////////////////
 /////// معلومات السيرفر ///// 
