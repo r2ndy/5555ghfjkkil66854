@@ -132,57 +132,31 @@ client.on('message', message => {
 
 /////////////////////////////////////////////////////
 /////// معلومات السيرفر ///// 
-client.on("message", function(msg) {
-  if (msg.content.startsWith(prefix + "server")) {
-    let embed = new Discord.MessageEmbed()
-      .setColor("RANDOM")
-      .setThumbnail(msg.guild.iconURL())
-      .addField(
-        ":globe_with_meridians: **Server name  : **",
-        `**[ ${msg.guild.name} ]**`,
-        true
-      )
-      .addField(
-        ":earth_africa: ** server location  :**",
-        `**[ ${msg.guild.region} ]**`,
-        true
-      )
-      .addField(
-        ":military_medal:** roles :**",
-        `**[ ${msg.guild.roles.cache.size} ]**`,
-        true
-      )
-      .addField(
-        ":bust_in_silhouette:** Member  :**",
-        `**[ ${msg.guild.memberCount} ]**`,
-        true
-      )
+niro.on('message', message => {
+  if (message.content.startsWith(prefix + "server")) {
+    if (!message.guild.member(message.author).hasPermission("ADMINISTRATOR")) return message.reply(`**هذه الخاصية للادارة فقط** :negative_squared_cross_mark: `)
+    if (!message.channel.guild) return message.reply(' ');
+    const millis = new Date().getTime() - message.guild.createdAt.getTime();
+    const now = new Date();
+    dateFormat(now, 'dddd, mmmm dS, yyyy, h:MM:ss TT');
+    const verificationLevels = ['None', 'Low', 'Medium', 'Insane', 'Extreme'];
+    const days = millis / 1000 / 60 / 60 / 24;
+    let roles = niro.guilds.get(message.guild.id).roles.map(r => r.name);
+    var embed = new Discord.RichEmbed()
+      .setAuthor(message.guild.name, message.guild.iconURL)
+      .addField("**🆔 Server ID:**", message.guild.id, true)
+      .addField("**📅 Created On**", message.guild.createdAt.toLocaleString(), true)
+      .addField("**👑 Owned by**", `${message.guild.owner.user.username}#${message.guild.owner.user.discriminator}`)
+      .addField(`**👥 Members (${message.guild.memberCount})**`, `**${
+        message.guild.members.filter(c => c.presence.status !== "ONLINE").size}** **Online**`, true)
+      .addField('**💬 Channels **', `**${message.guild.channels.filter(m => m.type === 'text').size}**` + ' text | Voice  ' + `**${message.guild.channels.filter(m => m.type === 'voice').size}** `, true)
+      .addField("**🌍 Others **", message.guild.region, true)
+      .addField(`**🔐 Roles (${message.guild.roles.size})**`, `To see a list with all roles use **#roles** `, true)
+      .setColor(`BLACK`)
+    message.channel.sendEmbed(embed)
 
-      .addField(
-        ":pencil:** Text channels  :**",
-        `**[ ${msg.guild.channels.cache.filter(m => m.type === "text").size} ]**`,
-        true
-      )
-      .addField(
-        ":loud_sound:**  voice channels :**",
-        `**[ ${msg.guild.channels.cache.filter(m => m.type === "voice").size} ]**`,
-        true
-      )
-      .addField(
-        ":crown:** server owner  :**",
-        `[ *${msg.guild.owner}* ]`,
-        true
-      )
-      .addField(":id:** server id  :**", `**[ ${msg.guild.id} ]**`, true)
-      .addField(
-        ":date:** createdAt : **",
-        msg.guild.createdAt.toLocaleString()
-      );
-    msg.channel.send({ embed: embed });
   }
-          
 });
-
 /////////////////////////////////////////////////////////
 ///////// فقل و فتح الشات ////////////
 client.on('message', message =>{
