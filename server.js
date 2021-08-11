@@ -47,6 +47,38 @@ client.on('message', message => {
 });
 /////////////////
 //// فك الباند ////// 
+client.on('message', msg => {
+  if (msg.content.split(' ')[0].toLowerCase() == prefix + 'invites') {
+    let guild = msg.guild
+    var codes = [""]
+    var nul = 0
+
+    guild.fetchInvites()
+      .then(invites => {
+        invites.forEach(invite => {
+          if (invite.inviter === msg.author) {
+            nul += invite.uses
+            codes.push(`discord.gg/${invite.code}`)
+          }
+
+        })
+        if (nul > 0) {
+          const e = new Discord.MessageEmbed()
+            .addField(`${msg.author.username}`, `لقد قمت بدعوة **${nul}** شخص`)
+            .setColor('#36393e')
+          msg.channel.send(e)
+        } else {
+          var embed = new Discord.MessageEmbed()
+            .setColor("#000000")
+            .addField(`${msg.author.username}`, `لم تقم بدعوة أي شخص لهذة السيرفر`)
+
+          msg.channel.send({ embed: embed });
+          return;
+        }
+      })
+  }
+}) 
+
 
 ////// افتااار //// 
 
