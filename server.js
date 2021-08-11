@@ -290,7 +290,7 @@ client.on('message', message => {
 
 //////////////////////////////////////////////////
 ////////// فك الميووت /////////// 
- clien.on("message", message => {
+ niro.on("message", message => {
   if (message.author.bot) return;
 
   let command = message.content.split(" ")[0];
