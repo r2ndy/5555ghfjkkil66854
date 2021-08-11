@@ -291,11 +291,8 @@ client.on('message', message => {
 //////////////////////////////////////////////////
 ////////// فك الميووت /////////// 
  niro.on("message", message => {
-  if (message.author.bot) return;
 
-  let command = message.content.split(" ")[0];
-
-  if (command === prefix + "unmute") {
+  if (message.content == ("-unmute")) {
     if (message.author.bot) return;
     if (!message.member.hasPermission("MANAGE_ROLES"))
       return message
