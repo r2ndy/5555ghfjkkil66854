@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-var prefix = "#";
+var prefix = "-";
 
 /////
 client.on('ready',  () => {
@@ -32,11 +32,11 @@ client.on('message', message => {
 .setDescription(`
 \`${prefix}الاوامر\`
 ////////////////////
-#avatar ---> عرض صورتك 
-#server ---> معلومات السيرفر
-#lock ---> قفل الشات 
-#unlock ---> فتح الشات 
-#clear ---> مسح الشات 
+-avatar ---> عرض صورتك 
+-server ---> معلومات السيرفر
+-lock ---> قفل الشات 
+-unlock ---> فتح الشات 
+-clear ---> مسح الشات 
 
  
 `);
@@ -299,122 +299,86 @@ client.on('message', message => {
 
 ////////////////////////////////////////////////////
 ///////////
-client.on("message", (message) => {
-    if (message.content.toLowerCase().startsWith(prefix + "mute")) {
-        if (!message.member.hasPermission('MANAGE_ROLES')) return message.channel.send(
-            new Discord.MessageEmbed().setColor("RED")
-            .setDescription("❌" + " **You Need `MANAGE_ROLES` Permission To Use This Command!**")
-            .setFooter(`Request By ${message.author.tag}`).setTimestamp()
-        )
-        if (!message.guild.me.hasPermission('MANAGE_ROLES')) return message.channel.send(
-            new Discord.MessageEmbed().setColor("RED")
-            .setDescription("❌" + " **I Can't Mute Any Member In This Server Becuse I Don't Have `MANAGE_ROLES` Permission!**")
-            .setFooter(`Request By ${message.author.tag}`).setTimestamp()
-        )
-        let member = message.mentions.users.first() || client.users.cache.get(message.content.split(' ')[1])
-        var user = message.guild.member(member)
-        if (!user) return message.channel.send(
-            new Discord.MessageEmbed().setColor("RED")
-            .setDescription("❌" + " **Please Mention/ID Same One!**")
-            .setFooter(`Request By ${message.author.tag}`).setTimestamp()
-        )
-        if (user.id === message.author.id) return message.reply(
-            new Discord.MessageEmbed().setColor("YELLOW")
-            .setDescription("⚠" + " **WTF Are You Doing ??**")
-            .setFooter(`Request By ${message.author.tag}`).setTimestamp()
-        )
-        if (user.id === client.user.id) return message.channel.send(
-            new Discord.MessageEmbed().setColor("YELLOW")
-            .setDescription("⚠" + " **WTF Are You Doing ??**")
-            .setFooter(`Request By ${message.author.tag}`).setTimestamp()
-        )
-        if (!message.guild.member(user).bannable) return message.reply(
-            new Discord.MessageEmbed().setColor("RED")
-            .setDescription("❌" + " **Soory I Can't Mute Same One High Than Me >_<**")
-            .setFooter(`Request By ${message.author.tag}`).setTimestamp()
-        )
-        let muteRole = message.guild.roles.cache.find(n => n.name === 'Muted')
-        if (!muteRole) {
-            message.guild.roles.create({
-                data: {
-                    name: "Muted",
-                }
-            }).then(async(role) => {
-                await message.guild.channels.cache.forEach(channel => {
-                    channel.overwritePermissions([{
-                        id: role.id,
-                        deny: ["SEND_MESSAGES"]
-                    }]);
-                })
-            })
-        }
-        user.roles.add(muteRole)
-        var time = message.content.split(' ')[2]
-        if (!time) time = '24h'
-        message.channel.send(new Discord.MessageEmbed().setColor("GREEN").setDescription("✅" + ` **${user} Has Ben Muted By <@!${message.author.id}>, For a ${ms(ms(time))}**`).setFooter(`Request By ${message.author.tag}`).setTimestamp())
-        setTimeout(() => {
-            user.roles.remove(muteRole);
-        }, ms(time));
-        return;
-    }
-})
+
 
 //////////////////////////////////////////////////
 ////////// فك الميووت /////////// 
-client.on('message', msg => {
-const error = "❌";
-const timeing = "⏱";
-const success = "✅";
-const lodeing = "🤔";
-  let args = msg.content.split(" ");
-  if (args[0] === prefix + 'unmute') {
-    if (msg.author.bot) return;
-    if (msg.channel.type == "dm") return msg.channel.send(new Discord.MessageEmbed().setColor("RED").setDescription(error + ` **You Can't Use This Command In DM's!**`).setFooter(`Request By ${msg.author.tag}`).setTimestamp())
-    if (!msg.member.hasPermission('MANAGE_ROLES')) return msg.channel.send(new Discord.MessageEmbed().setDescription(error + " **You Need `MANAGE_ROLES` Permission To Use This Command!**").setFooter(`Request By ${msg.author.tag}`).setTimestamp())
-    if (!msg.guild.me.hasPermission('MANAGE_ROLES')) return msg.channel.send(new Discord.MessageEmbed().setDescription(error + " **I Can't Kick Any Member In This Server Becuse I Don't Have `MANAGE_ROLES` Permission!**").setFooter(`Request By ${msg.author.tag}`).setTimestamp())
-    let user = msg.mentions.members.first()
-    if (!user) return msg.channel.send(new Discord.MessageEmbed().setDescription(error + " **Please Mention Same One!**").setFooter(`Request By ${msg.author.tag}`).setTimestamp())
-    if (user.id === msg.author.id) return msg.reply(new Discord.MessageEmbed().setDescription(lodeing + " **WTF Are You Doing ??**").setFooter(`Request By ${msg.author.tag}`).setTimestamp())
-    if (!msg.guild.member(user).bannable) return msg.reply(new Discord.MessageEmbed().setDescription(error + " **I Can't Unmute one high than me >_<**").setFooter(`Request By ${msg.author.tag}`).setTimestamp())
-    var muteRole = msg.guild.roles.cache.find(n => n.name === 'Muted')
-    if (!muteRole) return msg.channel.send(new Discord.MessageEmbed().setDescription(lodeing + ` **WTF Is That ?? [ Super Error ]**`).setFooter(`Request By ${msg.author.tag}`).setTimestamp())
-    user.roles.remove(muteRole)
-    msg.channel.send(lodeing + " **Processing The Unmute Function**").then((m) => {
-      m.edit(success + " **Processing is complete**")
-    })
-    msg.channel.send(new Discord.MessageEmbed().setDescription(success + ` **${user} Has Ben Unmuted By <@!${msg.author.id}>**`).setFooter(`Request By ${msg.author.tag}`).setTimestamp())
-  }
-})
+
 //////////////////////
 ///////////// باند وفك الباند /////////
 
-client.on("message", (message) => {
-    if (message.content.toLowerCase().startsWith(prefix + "ban")) {
-        var args = message.content.split(' ')
-        var member = message.mentions.users.first() || client.users.cache.get(message.content.split(' ')[1]);
-        var trueUser = message.guild.member(member);
-        var reason = message.content.split(' ').slice(3).join(' ') || 'undefined';
-        var time = args[2] || '1y'
-        if (!message.guild.me.hasPermission('BAN_MEMBERS')) return message.channel.send(new Discord.MessageEmbed().setColor("RED").setDescription("❌" + " **I Can't Bannd Any Member In This Server Becuse I Don't Have `BAN_MEMBERS` Permission!**\n Ex: " + `${prefix}ban @user 4d spam`).setFooter(`Request By ${message.author.tag}`).setTimestamp());
-        if (!message.member.hasPermission('BAN_MEMBERS')) return message.channel.send(new Discord.MessageEmbed().setColor("RED").setDescription("❌" + " **You Need `BAN_MEMBERS` Permission To Use This Command!**\n Ex: " + `${prefix}ban @user 4d spam`).setFooter(`Request By ${message.author.tag}`).setTimestamp());
-        if (!trueUser) return message.channel.send(new Discord.MessageEmbed().setColor("RED").setDescription("❌" + " **Please Mention/ID Same One!**\n Ex: " + `${prefix}ban @user 4d spam`).setFooter(`Request By ${message.author.tag}`).setTimestamp());
-        if (!reason) return message.channel.send(new Discord.MessageEmbed().setColor("RED").setDescription("❌" + " **Please Type Reason!**\n Ex: " + `${prefix}ban @user 4d spam`).setFooter(`Request By ${message.author.tag}`).setTimestamp());
-        trueUser.ban({ reason: reason }).then(() => {
-            message.channel.send(new Discord.MessageEmbed().setColor("GREEN").setDescription("✅" + ` **<@!${trueUser.user.id}> banned from the server ! :airplane: by:<@${message.author.id}> **`).setFooter(`Request By ${message.author.tag}`).setTimestamp())
-            setTimeout(() => {
-                message.guild.fetchBans().then(bans => {
-                    if (bans.size == 0) return;
-                    bans.forEach(ban => {
-                        if (ban.user.id == trueUser.user.id) {
-                            message.guild.members.unban(ban.user.id);
-                        } else console.log(ban.user.id + " => " + trueUser.user.id)
-                    });
-                });
-            }, ms(time))
-        })
-    }
-})
+client.on('message', message => {
+    if (message.content == ("-ban")) {
+               
 
+        const mmss = require('ms');
+        let reason = message.content.split(' ').slice(3).join(' ');
+        let time = message.content.split(' ')[2];
+        let guild = message.guild;
+
+        let usermention = message.mentions.users.first();
+
+        if (!message.guild.member(message.author).hasPermission('BAN_MEMBERS')) {
+            return message.reply(':lock: **You** need `BAN_MEMBERS` Permissions to execute `ban`')
+        }
+
+        if (!message.guild.member(client.user).hasPermission('BAN_MEMBERS')) {
+            return message.reply(':lock: **I** need `BAN_MEMBERS` Permissions to execute `ban`')
+        }
+
+    
+
+        if (message.mentions.users.size < 1) {
+            return message.reply('You need to mention someone to Ban them!')
+        }
+
+        if (message.author.id === usermention.id) {
+            return message.reply('You cant punish yourself :wink:')
+        }
+
+        if (!time) {
+            return message.reply(`How much time ? **Usage:**\`-ban [@mention] [1d] [Reason]\``)
+        }
+
+        if (!time.match(/[1-7][s,m,h,d,w]/g)) {
+            return message.reply('I need a valid time ! look at the Usage! right here: **Usage:**`-ban [@mention] [1m] [Reason]`')
+        }
+
+        if (!reason) {
+            return message.reply(`You must give me a reason for the ban **Usage:**\`-ban [@mention] [1d] [Reason]\``)
+        }
+
+        if (!message.guild.member(usermention).bannable) {
+            return message.reply('This member is above me in the `role chain` Can\'t ban them')
+        }
+
+        message.reply("This user has been banned form the server.");
+
+        usermention.send(`You've just got banned from ${guild.name}  \n State reason: **${reason}** \n **Disclamer**: If the ban is not timed and Permanent you may not appeal the **BAN**!`)
+        message.guild.ban(usermention, 7);
+        setTimeout(() => {
+            message.guild.unban(usermention.id);
+        }, mmss(time));
+       message.channel.send({embed: {
+            color: 3447003,
+            author: {
+              name: client.user.username,
+              icon_url: client.user.avatarURL
+            },
+            fields: [{
+                name: "Ban:",
+                value: `**Banned:** ${usermention.username}#${usermention.discriminator}\n**Moderator:** ${message.author.username} \n**Duration:** ${mmss(mmss(time), {long: true})} \n**Reason:** ${reason}`
+              }
+            ],
+            timestamp: new Date(),
+            footer: {
+              icon_url: client.user.avatarURL,
+              text: "© SOKA"
+            }
+          }
+        });
+    }
+});
 client.login(process.env.BOT_TOKEN);
 
 
