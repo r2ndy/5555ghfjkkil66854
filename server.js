@@ -103,7 +103,7 @@ client.on('message', message => {
 //////// يوزر 
 client.on("message", msg => {
   if(msg.content === '-' + "id") {
-      const embed = new Discord.RichEmbed();
+      const embed = new Discord.MessageEmbed();
   embed.addField("🔱| اسم الحساب :", `${msg.author.username}#${msg.author.discriminator}`, true)
           .addField("🆔| الاي دي :", `${msg.author.id}`, true)
           .setColor("RANDOM")
