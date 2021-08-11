@@ -163,7 +163,7 @@ client.on("message", (message) => {
     } else if (message.author.bot) {
       return;
     }
-    if (message.content.startsWith(prefix + "mute")) {
+    if (message.content.startsWith(prefix + "-mute")) {
       let muteRole = "873617778664407050"; //تعديل مهم ، حط أيدي الميوت رول
       let targetedMember = message.mentions.members.first();
       if (targetedMember.roles.cache.has(muteRole)) {
@@ -185,7 +185,7 @@ client.on("message", (message) => {
             });
           });
       }
-    } else if (message.content.startsWith(prefix + "unmute")) {
+    } else if (message.content.startsWith(prefix + "-unmute")) {
       let targetedMember = message.mentions.members.first();
       let muteRole = "873617778664407050";
       if (!targetedMember.roles.cache.has(muteRole)) {
