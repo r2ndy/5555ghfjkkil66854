@@ -48,6 +48,40 @@ client.on('message', message => {
 		message.channel.send("done in your dm")
     }
 });
+/////////////////
+//// ريستارت للبوت ////// 
+client.on('message', message => {
+    var ncr_prefix = '#' //admins prefix
+    var ncr_devs = '749064659457409106' //your id
+    if (message.content.startsWith(ncr_prefix + "restart")) {
+        if (!ncr_devs.includes(message.author.id)) return message.channel.send(` Only <@${devs.id}> Can Use This Command `);
+ 
+        let RestartEmbed = new Discord.MessageEmbed()
+ 
+        .setColor(`RANDOM`)
+ 
+        .setAuthor(message.author.username, message.author.avatarURL())
+ 
+        .setDescription(`** The Bot Is Restarting ... **`)
+ 
+        .setFooter(client.user.username)
+ 
+        message.channel.send(RestartEmbed)
+ 
+        client.destroy()
+ 
+ 
+        client.login(ncr_token)
+            .then(console.log(`The Bot Restarted !!\n By : ${message.author.username} | ID : ${message.author.id}`))
+        var res = new Discord.MessageEmbed()
+            .setColor('RANDOM')
+            .setTitle(`**Done Restarted The Bot**`)
+        message.channel.send(res)
+ 
+    }
+})
+
+
 
 ////// افتااار //// 
 
