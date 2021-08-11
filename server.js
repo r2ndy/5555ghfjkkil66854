@@ -193,7 +193,7 @@ ${msgs.size} messages cleared
 ////////////////////
 ////////رول /////////
   client.on("message", message => {
-        let roleembed = new Discord.RichEmbed()
+       
     .setDescription(`
     أمثله على الأوامر :
     -role @mention rolename : لأعطاء رتبة لعضو معين
