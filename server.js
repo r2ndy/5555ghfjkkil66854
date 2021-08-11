@@ -45,8 +45,7 @@ client.on('message', message => {
 		message.channel.send("done in your dm")
     }
 });
-/////////////////
-//// فك الباند ////// 
+////////////// عدد الدعوات ////// 
 client.on('message', msg => {
   if (msg.content.split(' ')[0].toLowerCase() == prefix + 'invites') {
     let guild = msg.guild
@@ -70,7 +69,7 @@ client.on('message', msg => {
         } else {
           var embed = new Discord.MessageEmbed()
             .setColor("#000000")
-            .addField(`${msg.author.username}`, `لم تقم بدعوة أي شخص لهذة السيرفر`)
+            .addField(`${msg.author.username}`, `لم تقم بدعوة أي شخص للسيرفر`)
 
           msg.channel.send({ embed: embed });
           return;
