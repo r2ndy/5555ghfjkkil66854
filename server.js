@@ -132,7 +132,7 @@ client.on('message', message => {
 
 /////////////////////////////////////////////////////
 /////// معلومات السيرفر ///// 
-niro.on('message', message => {
+client.on('message', message => {
   if (message.content.startsWith(prefix + "server")) {
     if (!message.guild.member(message.author).hasPermission("ADMINISTRATOR")) return message.reply(`**هذه الخاصية للادارة فقط** :negative_squared_cross_mark: `)
     if (!message.channel.guild) return message.reply(' ');
