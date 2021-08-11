@@ -56,70 +56,9 @@ client.on('message', message => {
 
 /////////////////////////////////////////////////////
 /////// معلومات السيرفر ///// 
-client.on("message", message => {
-    if (!message.guild) return;
-    if (message.content.startsWith(prefix + "server")) {
-        const text = message.guild.channels.cache.filter(r => r.type === "text").size;
-        const voice = message.guild.channels.cache.filter(r => r.type === "voice").size;
-        const chs = message.guild.channels.cache.size;
-        const roles = message.guild.roles.cache.size;
-        const emojis = message.guild.emojis.cache.size;
-        const online = message.guild.members.cache.filter(m => m.presence.status === 'online').size;
-        var vlevel;
-        const vlevelCheck = message.guild.verificationLevel;
-        if (vlevelCheck === "NONE") vlevel = '0';
-        if (vlevelCheck === "LOW") vlevel = '1';
-        if (vlevelCheck === "MEDIUM") vlevel = '2';
-        if (vlevelCheck === "HIGH") vlevel = '3';
-        if (vlevelCheck === "VERY_HIGH") vlevel = '4';
-        message.channel.send(
-            new Discord.MessageEmbed()
-            .setAuthor(message.guild.name, message.guild.iconURL({ dynamic: true }))
-            .addFields({
-                name: `🔠 Server Name`,
-                value: message.guild.name,
-                inline: true
-            }, {
-                name: `🆔 Server ID`,
-                value: message.guild.id,
-                inline: true
-            }, {
-                name: `📆 Created On`,
-                value: moment(message.guild.createdAt).format("YYYY/MM/DD, HH:mm:ss a") + '\n' + moment(message.guild.createdAt, "YYYYMMDD").fromNow(),
-                inline: true
-            }, {
-                name: `👑 Owner By`,
-                value: '<@!' + message.guild.owner.user.id + '>',
-                inline: true
- 
-            }, {
-                name: `👥 Members (${message.guild.memberCount})`,
-                value: `**` + online + `** Online | **` + message.guild.premiumSubscriptionCount + `** Boosts ✨`,
-                inline: true
-            }, {
-                name: `💬 Channels (` + chs + `)`,
-                value: `**` + text + `** Text | **` + voice + `** Voice`,
-                inline: true
-            }, {
-                name: `🌍 Others`,
-                value: `**Region:** ` + message.guild.region + `\n` + `**Verification Level:** ` + vlevel,
-                inline: true
-            }, {
-                name: `🔐 Roles (` + roles + `)`,
-                value: `To see a list with all roles use **` + prefix + `roles**`,
-                inline: true
-            }, {
-                name: `😀 Emojis (` + emojis + `)`,
-                value: `To see a list with all emojis use **` + prefix + `emojis**`,
-                inline: true
-            })
-            .setFooter(client.user.username, client.user.avatarURL({ dynamic: true }))
-            .setTimestamp()
-        );
-    }
-});
 
-/////////////////////////////////////////////////////////
+
+///////////////////////////////////
 ///////// فقل و فتح الشات ////////////
 client.on('message', message =>{
   if(message.content.startsWith(prefix +"lock")) { 
@@ -206,7 +145,37 @@ ${msgs.size} messages cleared
 
 ////////////////////
 ////////رول /////////
-  
+  client.on("message", message => {
+  let cmd = message.content.toLowerCase().split(" ")[0];
+  cmd = cmd.slice(prefix.length);
+  if (cmd === "role") {
+    if (!message.channel.guild || message.author.bot) return;
+    let args = message.content.split(" ");
+    let user = message.guild.member(
+      message.mentions.users.first() || message.guild.members.cache.get(args[1])
+    );
+    var role = message.content.split(" ").slice(2).join(" ").toLowerCase();
+    var role1 = message.guild.roles.cache.filter(r => r.name.toLowerCase().indexOf(role) > -1).first();
+    if (!message.guild.member(client.user).hasPermission("MANAGE_ROLES"))
+      return message.channel.send(`:x: **I Need Permissions !!**`);
+    if (!message.guild.member(message.author).hasPermission("MANAGE_ROLES"))
+      return;
+    if (!user) return message.channel.send(`**✅ ${prefix}role <@mention or iD> role**`);
+    if (!role) return message.channel.send(`**✅ ${prefix}role <@mention or iD> role**`);
+    if (!role1) return message.channel.send(`**✅ ${prefix}role <@mention or iD> role**`);
+    if (user.roles.cache.find(c => c.id === role1.id))
+      return user.roles.remove(role1).then(() => {
+message.channel.send(`**✅ Changed roles for ${user.user}  removed ${role1.name}**`);
+}).catch(err => message.channel.send("Error: **" + err.message + "**"));
+user.roles.add(role1).then(() => {
+        message.channel.send(
+          `**✅ Changed roles for ${user.user} ${role1.name}**`
+        );
+      })
+      .catch(err => message.channel.send("Error: **" + err.message + "**"));
+  }
+}); 
+
 ///////////////////////////////////////////
 ///////////////////////////// التوب 
 
