@@ -33,13 +33,12 @@ client.on('message', message => {
 \`${prefix}الاوامر\`
 ////////////////////
 #avatar ---> عرض صورتك 
-#user ---> معلومات حسابك
 #server ---> معلومات السيرفر
 #lock ---> قفل الشات 
 #unlock ---> فتح الشات 
 #clear ---> مسح الشات 
-#role ---> اضافة رول 
-#top ---> التفاعل 
+
+ 
 `);
 
 //تقدر تضيف اكثر اوامر
@@ -49,36 +48,45 @@ client.on('message', message => {
     }
 });
 /////////////////
-//// ريستارت للبوت ////// 
-client.on('message', message => {
-    var ncr_prefix = '#' //admins prefix
-    var ncr_devs = '749064659457409106' //your id
-    if (message.content.startsWith(ncr_prefix + "restart")) {
-        if (!ncr_devs.includes(message.author.id)) return message.channel.send(` Only <@${devs.id}> Can Use This Command `);
- 
-        let RestartEmbed = new Discord.MessageEmbed()
- 
-        .setColor(`RANDOM`)
- 
-        .setAuthor(message.author.username, message.author.avatarURL())
- 
-        .setDescription(`** The Bot Is Restarting ... **`)
- 
-        .setFooter(client.user.username)
- 
-        message.channel.send(RestartEmbed)
- 
-        client.destroy()
-
-            .then(console.log(`The Bot Restarted !!\n By : ${message.author.username} | ID : ${message.author.id}`))
-        var res = new Discord.MessageEmbed()
-            .setColor('RANDOM')
-            .setTitle(`**Done Restarted The Bot**`)
-        message.channel.send(res)
- 
+//// فك الباند ////// 
+client.on("message", (message) => {
+    if (message.content.startsWith(prefix + "unban")) {
+        if (message.channel.type == "dm") return;
+        if (message.author.bot) return;
+        try {
+            if (!message.member.hasPermission('BAN_MEMBERS')) return message.channel.send(
+                new Discord.MessageEmbed()
+                .setColor("RED")
+                .setDescription("❌" + " **You Need `BAN_MEMBERS` Permission To Use This Command!**")
+            );
+            message.guild.fetchBans().then(bans => {
+                if (bans.size == 0) {
+                    message.reply(
+                        new Discord.MessageEmbed()
+                        .setColor("RED")
+                        .setDescription(
+                            `**❌ | Thare Is No Bannded Members!**`
+                        )
+                    );
+                };
+                bans.forEach(ban => {
+                    message.guild.members.unban(ban.user.id);
+                    let una = bans.size;
+                    message.channel.send(
+                        new Discord.MessageEmbed()
+                        .setColor("GREEN")
+                        .setDescription(
+                            `**✅ | Done Unbaned ${una} Members!**`
+                        )
+                    )
+                });
+            })
+        } catch (e) {
+            message.channel.send(`\`\`\`js\n${e}\n\`\`\``)
+            console.log()
+        }
     }
 })
-
 
 
 ////// افتااار //// 
