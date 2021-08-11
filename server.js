@@ -101,60 +101,44 @@ client.on('message', message => {
   })
 /////////////////////////////////////////////////////
 //////// يوزر 
-client.on('message', message => {
-  if (message.content.startsWith(prefix + "user")) {
-    var args = message.content.split(" ").slice(1);
-    let user = message.mentions.users.first();
-    var men = message.mentions.users.first();
-    var heg;
-    if (men) {
-      heg = men
-    } else {
-      heg = message.author
-    }
-    var mentionned = message.mentions.members.first();
-    var h;
-    if (mentionned) {
-      h = mentionned
-    } else {
-      h = message.member
-    }
-    moment.locale('ar-TN');
-    var id = new Discord.RichEmbed()
-      .setAuthor(message.author.username, message.author.avatarURL)
-      .setColor(`RANDOM`)
-      .addField('**JOINED DISCORD :**', `${moment(heg.createdTimestamp).format('YYYY/M/D')} **\n** \`${moment(heg.createdTimestamp).fromNow()}\``, true)
-      .addField('**JOINED SERVER :**', `${moment(h.joinedAt).format('YYYY/M/D')} \n \`${moment(h.joinedAt).fromNow()}\``, true)
-      .setThumbnail(heg.avatarURL);
-    message.channel.send(id)
+client.on("message", msg => {
+  if(msg.content === '-' + "id") {
+      const embed = new Discord.RichEmbed();
+  embed.addField("🔱| اسم الحساب :", `${msg.author.username}#${msg.author.discriminator}`, true)
+          .addField("🆔| الاي دي :", `${msg.author.id}`, true)
+          .setColor("RANDOM")
+          .setFooter(msg.author.username , msg.author.avatarURL)
+          .setThumbnail(`${msg.author.avatarURL}`)
+          .setTimestamp()
+          .setURL(`${msg.author.avatarURL}`)
+          .addField('📛| الحالة :', `${msg.author.presence.status.toUpperCase()}`, true)
+          .addField('🏅| الرتب : ', `${msg.member.roles.filter(r => r.name).size}`, true)
+          .addField('📅| تم الانضمام للديسكورد في :', `${msg.createdAt}`,true)
+      msg.channel.send({embed: embed})
   }
 });
 
 /////////////////////////////////////////////////////
 /////// معلومات السيرفر ///// 
-client.on('message', message => {
-  if (message.content.startsWith(prefix + "server")) {
-    if (!message.guild.member(message.author).hasPermission("ADMINISTRATOR")) return message.reply(`**هذه الخاصية للادارة فقط** :negative_squared_cross_mark: `)
-    if (!message.channel.guild) return message.reply(' ');
-    const millis = new Date().getTime() - message.guild.createdAt.getTime();
-    const verificationLevels = ['None', 'Low', 'Medium', 'Insane', 'Extreme'];
-    const days = millis / 1000 / 60 / 60 / 24;
-    let roles = client.guilds.get(message.guild.id).roles.map(r => r.name);
-    var embed = new Discord.RichEmbed()
-      .setAuthor(message.guild.name, message.guild.iconURL)
-      .addField("**🆔 Server ID:**", message.guild.id, true)
-      .addField("**📅 Created On**", message.guild.createdAt.toLocaleString(), true)
-      .addField("**👑 Owned by**", `${message.guild.owner.user.username}#${message.guild.owner.user.discriminator}`)
-      .addField(`**👥 Members (${message.guild.memberCount})**`, `**${
-        message.guild.members.filter(c => c.presence.status !== "ONLINE").size}** **Online**`, true)
-      .addField('**💬 Channels **', `**${message.guild.channels.filter(m => m.type === 'text').size}**` + ' text | Voice  ' + `**${message.guild.channels.filter(m => m.type === 'voice').size}** `, true)
-      .addField("**🌍 Others **", message.guild.region, true)
-      .addField(`**🔐 Roles (${message.guild.roles.size})**`, `To see a list with all roles use **#roles** `, true)
-      .setColor(`BLACK`)
-    message.channel.sendEmbed(embed)
-
-  }
-});
+client.on('message', function(msg) {
+    if(msg.content.startsWith ('-server')) {
+      if(!msg.channel.guild) return msg.reply('**:x: اسف لكن هذا الامر للسيرفرات فقط **');         
+      let embed = new Discord.RichEmbed()
+      .setColor('RANDOM')
+      .setThumbnail(msg.guild.iconURL)
+      .addField(':globe_with_meridians: **اسم السيرفر : **' , `**[ ${msg.guild.name} ]**`,true)
+      .addField(':earth_africa: ** موقع السيرفر :**',`**[ ${msg.guild.region} ]**`,true)
+      .addField(':military_medal:** الرتب :**',`**[ ${msg.guild.roles.size} ]**`,true)
+      .addField(':bust_in_silhouette:** عدد الاعضاء :**',`**[ ${msg.guild.memberCount} ]**`,true)
+      .addField(':white_check_mark:** عدد الاعضاء الاونلاين :**',`**[ ${msg.guild.members.filter(m=>m.presence.status == 'online').size} ]**`,true)
+      .addField(':pencil:** الرومات الكتابية :**',`**[ ${msg.guild.channels.filter(m => m.type === 'text').size} ]**`,true)
+      .addField(':loud_sound:** رومات الصوت :**',`**[ ${msg.guild.channels.filter(m => m.type === 'voice').size} ]**`,true)
+      .addField(':crown:** صاحب السيرفر :**',`**[ ${msg.guild.owner} ]**`,true)
+      .addField(':id:** ايدي السيرفر :**',`**[ ${msg.guild.id} ]**`,true)
+      .addField(':date:** تم عمل السيرفر في : **',msg.guild.createdAt.toLocaleString())
+      msg.channel.send({embed:embed});
+    }
+  });
 /////////////////////////////////////////////////////////
 ///////// فقل و فتح الشات ////////////
 client.on('message', message =>{
