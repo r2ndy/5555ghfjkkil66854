@@ -137,7 +137,6 @@ client.on('message', message => {
     if (!message.guild.member(message.author).hasPermission("ADMINISTRATOR")) return message.reply(`**هذه الخاصية للادارة فقط** :negative_squared_cross_mark: `)
     if (!message.channel.guild) return message.reply(' ');
     const millis = new Date().getTime() - message.guild.createdAt.getTime();
-    const now = [now, 'dddd, mmmm dS, yyyy, h:MM:ss TT'];
     const verificationLevels = ['None', 'Low', 'Medium', 'Insane', 'Extreme'];
     const days = millis / 1000 / 60 / 60 / 24;
     let roles = client.guilds.get(message.guild.id).roles.map(r => r.name);
