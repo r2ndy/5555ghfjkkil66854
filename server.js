@@ -35,7 +35,7 @@ client.on('message', message => {
 -lock ---> قفل الشات 
 -unlock ---> فتح الشات 
 -clear ---> مسح الشات 
-
+-server ---> معلومات السيرفر 
  
 `);
 
@@ -56,6 +56,68 @@ client.on('message', message => {
 
 /////////////////////////////////////////////////////
 /////// معلومات السيرفر ///// 
+client.on("message", message => {
+    if (!message.guild) return;
+    if (message.content.startsWith(prefix + "server")) {
+        const text = message.guild.channels.cache.filter(r => r.type === "text").size;
+        const voice = message.guild.channels.cache.filter(r => r.type === "voice").size;
+        const chs = message.guild.channels.cache.size;
+        const roles = message.guild.roles.cache.size;
+        const emojis = message.guild.emojis.cache.size;
+        const online = message.guild.members.cache.filter(m => m.presence.status === 'online').size;
+        var vlevel;
+        const vlevelCheck = message.guild.verificationLevel;
+        if (vlevelCheck === "NONE") vlevel = '0';
+        if (vlevelCheck === "LOW") vlevel = '1';
+        if (vlevelCheck === "MEDIUM") vlevel = '2';
+        if (vlevelCheck === "HIGH") vlevel = '3';
+        if (vlevelCheck === "VERY_HIGH") vlevel = '4';
+        message.channel.send(
+            new Discord.MessageEmbed()
+            .setAuthor(message.guild.name, message.guild.iconURL({ dynamic: true }))
+            .addFields({
+                name: `🔠 Server Name`,
+                value: message.guild.name,
+                inline: true
+            }, {
+                name: `🆔 Server ID`,
+                value: message.guild.id,
+                inline: true
+            }, {
+                name: `📆 Created On`,
+                value: moment(message.guild.createdAt).format("YYYY/MM/DD, HH:mm:ss a") + '\n' + moment(message.guild.createdAt, "YYYYMMDD").fromNow(),
+                inline: true
+            }, {
+                name: `👑 Owner By`,
+                value: '<@!' + message.guild.owner.user.id + '>',
+                inline: true
+ 
+            }, {
+                name: `👥 Members (${message.guild.memberCount})`,
+                value: `**` + online + `** Online | **` + message.guild.premiumSubscriptionCount + `** Boosts ✨`,
+                inline: true
+            }, {
+                name: `💬 Channels (` + chs + `)`,
+                value: `**` + text + `** Text | **` + voice + `** Voice`,
+                inline: true
+            }, {
+                name: `🌍 Others`,
+                value: `**Region:** ` + message.guild.region + `\n` + `**Verification Level:** ` + vlevel,
+                inline: true
+            }, {
+                name: `🔐 Roles (` + roles + `)`,
+                value: `To see a list with all roles use **` + prefix + `roles**`,
+                inline: true
+            }, {
+                name: `😀 Emojis (` + emojis + `)`,
+                value: `To see a list with all emojis use **` + prefix + `emojis**`,
+                inline: true
+            })
+            .setFooter(client.user.username, client.user.avatarURL({ dynamic: true }))
+            .setTimestamp()
+        );
+    }
+});
 
 /////////////////////////////////////////////////////////
 ///////// فقل و فتح الشات ////////////
