@@ -49,7 +49,56 @@ client.on('message', message => {
 });
 /////////////////
 //// فك الباند ////// 
-
+client.on('message', message => {
+    let args = message.content.split(' ');
+    if (message.content.startsWith(prefix + 'profile')) {
+        let member = message.mentions.users.first();
+ 
+        if (args[0] && !args[1]) {
+            message.channel.startTyping();
+            setTimeout(() => {
+                message.channel.stopTyping();
+            }, Math.random() * (1 - 3) + 1 * 1000);
+            message.channel.send({
+                files: [
+                    {
+                        name: 'cutie=HyPeD.png',
+                        attachment: `https://api.probot.io/profile/${message.author.id}`
+                    }
+                ]
+            });
+        }
+        if (member) {
+            message.channel.startTyping();
+            setTimeout(() => {
+                message.channel.stopTyping();
+            }, Math.random() * (1 - 3) + 1 * 1000);
+            message.channel.send({
+                files: [
+                    {
+                        name: 'cutie=HyPeD.png',
+                        attachment: `https://api.probot.io/profile/${member.id}`
+                    }
+                ]
+            });
+        } else if (args[1] && !member) {
+            client.users.fetch(args[1]).then(userr => {
+                message.channel.stopTyping();
+                setTimeout(() => {
+                    message.channel.stopTyping();
+                }, Math.random() * (1 - 3) + 1 * 1000);
+                message.channel.send({
+                    files: [
+                        {
+                            name: 'cutie=HyPeD.png',
+                            attachment: `https://api.probot.io/profile/${userr.id}`
+                        }
+                    ]
+                });
+            });
+        }
+    }
+});
 
 ////// افتااار //// 
 
