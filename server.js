@@ -102,91 +102,18 @@ client.on('message', message => {
   })
 /////////////////////////////////////////////////////
 //////// يوزر 
-client.on('message', async message => {
-    var moment = require("moment");
-    if (message.content.startsWith(prefix + "user")) {
-        if (message.author.bot) return;
-        if (message.channel.type == "dm") return message.channel.send(
-            new Discord.MessageEmbed()
-            .setColor("RED")
-            .setDescription("❌" + ` **You Can't Use This Command In DM's!**`)
-            .setFooter(client.user.username, client.user.avatarURL({ dynamic: true }))
-            .setTimestamp()
-        )
-        var args = message.content.split(" ").slice(1);
-        let user = message.mentions.users.first() || message.author || message.guild.member.cache.get(args[1]);
-        moment.locale('ar-TN');
-        const db = require('quick.db')
-        const flags = user.flags || await user.fetchFlags();
-        await db.set(`${user.id}`, [])
-        if (flags.toArray().includes('DISCORD_PARTNER')) db.push(`${user.id}`, "<:6714discordpartner:839529122467938375>")
-        if (flags.toArray().includes('HYPESQUAD_EVENTS')) db.push(`${user.id}`, "<:hypesquadbadge:839529122472656977>");
-        if (flags.toArray().includes('HOUSE_BRILLIANCE')) db.push(`${user.id}`, "<:briliance:839529152414744588>");
-        if (flags.toArray().includes('HOUSE_BRAVERY')) db.push(`${user.id}`, "<:bravery:839529152071729192>");
-        if (flags.toArray().includes('HOUSE_BALANCE')) db.push(`${user.id}`, "<:balance:839529122756952074>");
-        if (flags.toArray().includes('BUGHUNTER_LEVEL_2')) db.push(`${user.id}`, "<:hunterlv2:839529122900475964>");
-        if (flags.toArray().includes('BUGHUNTER_LEVEL_1')) db.push(`${user.id}`, "<:hunterlv1:839529122912010282>");
-        if (flags.toArray().includes('EARLY_SUPPORTER')) db.push(`${user.id}`, "<:earlysupporter:839529152100565032>");
-        if (flags.toArray().includes('VERIFIED_DEVELOPER')) db.push(`${user.id}`, "<:9developer:839529122878455848>");
-        if (flags.toArray().includes('EARLY_VERIFIED_DEVELOPER')) db.push(`${user.id}`, "<:9developer:839529122878455848>");
-        let nitro = user.avatarURL({ dynamic: true });
-        if (nitro.includes('gif')) db.push(`${user.id}`, "<:nitro:839616875184783411>");
-        var emojis = db.get(`${user.id}`);
-        var statusFull;
-        var status = user.presence.status;
-        if (status.includes('dnd')) statusFull = '🔴 | DND';
-        if (status.includes('offline')) statusFull = '⚫ | Offline';
-        if (status.includes('online')) statusFull = '🟢 | Online';
-        if (status.includes('idle')) statusFull = '🟡 | Idle';
-        var bot = false;
-        if (user.bot) bot = true;
-        message.channel.send(
-            new Discord.MessageEmbed()
-            .setAuthor(user.username, user.avatarURL({ dynamic: true }))
-            .setColor(message.member.displayHexColor)
-            .addFields({
-                name: "**Name:**",
-                value: user.username,
-                inline: true
-            }, {
-                name: "**Tag:**",
-                value: '#' + user.discriminator,
-                inline: true
-            }, {
-                name: "**Id:**",
-                value: user.id,
-                inline: true
-            }, {
-                name: "**Badge:**",
-                value: emojis,
-                inline: true
-            }, {
-                name: "**User Presence:**",
-                value: statusFull,
-                inline: true
-            }, {
-                name: "**Bot:**",
-                value: bot,
-                inline: true
-            }, {
-                name: "**Joined Discord:**",
-                value: `${moment(user.createdTimestamp).format('YYYY/M/D')} **\n** \`${moment(user.createdTimestamp).fromNow()}\``,
-                inline: true
-            }, {
-                name: "**Joined Server:**",
-                value: `${moment(user.joinedAt).format('YYYY/M/D')} \n \`${moment(user.joinedAt).fromNow()}\``,
-                inline: true
-            })
-            .setThumbnail(user.avatarURL({
-                dynamic: true,
-                format: 'png',
-                size: 1024
-            }))
-            .setFooter(client.user.username, client.user.avatarURL({ dynamic: true }))
-            .setTimestamp()
-        )
-    }
-})
+client.on('message', message => {
+  if (message.author.bot) return;
+  if (message.content.startsWith(prefix + 'id')) {
+    var user = message.guild.member (message.mentions.members.first() || message.author);
+      const embed = new Discord.MessageEmbed()
+  .setColor("RANDOM") 
+   .addField(`ID USER : [ ${user.id} ]`,`${user.user}`)
+   .setThumbnail(user.user.avatarURL())
+  .setFooter(`- Requested By: ${message.author.tag}`)
+  message.channel.send({embed});
+      }
+  });
 
 
 /////////////////////////////////////////////////////
