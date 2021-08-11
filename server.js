@@ -32,8 +32,6 @@ client.on('message', message => {
 .setDescription(`
 \`${prefix}الاوامر\`
 ////////////////////
--avatar ---> عرض صورتك 
--server ---> معلومات السيرفر
 -lock ---> قفل الشات 
 -unlock ---> فتح الشات 
 -clear ---> مسح الشات 
