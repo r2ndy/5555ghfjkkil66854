@@ -35,7 +35,7 @@ client.on('message', message => {
 -lock ---> قفل الشات 
 -unlock ---> فتح الشات 
 -clear ---> مسح الشات 
--server ---> معلومات السيرفر 
+-invites ---> عدد دعواتك في السيرفر 
  
 `);
 
@@ -81,7 +81,32 @@ client.on('message', msg => {
 
 ////// افتااار //// 
 
- 
+ client.on("message", hosam => {
+  if(hosam.content.startsWith(prefix+"avatar")) {
+    if(hosam.channel.type=="dm") return hosam.channel.send(`❌ - **You can't use this command in dm**`);
+    let args = hosam.content.split(" ").slice(1).join(" ");
+    if(args == "server") {
+      if(hosam.guild.icon == null) return hosam.channel.send(`❌ - **No server avatar`);
+      let ser = new Discord.MessageEmbed()
+      .setAuthor(hosam.guild.name,hosam.guild.iconURL({dynamic:true}))
+      .setImage(hosam.guild.iconURL({size:2048 , dynamic:true}))
+      .setDescription(`**[Avatar link](${hosam.guild.iconURL({dynamic:true})})**`)
+      .setFooter(`Requested by ${hosam.author.tag}`,hosam.author.displayAvatarURL({dynamic:true}));
+      hosam.channel.send(ser)
+    } else {
+      let user = hosam.mentions.users.first() || client.users.cache.get(args) || hosam.author;
+      let member = new Discord.MessageEmbed()
+      .setAuthor(user.tag,user.displayAvatarURL({dynamic:true}))
+      .setImage(user.displayAvatarURL({size:2048 , dynamic:true}))
+      .setDescription(`**[Avatar link](${user.displayAvatarURL({dynamic:true})})**`)
+      .setFooter(`Requested by ${hosam.author.tag}`,hosam.author.displayAvatarURL({dynamic:true}));
+      hosam.channel.send(member)
+    }
+  }
+}) 
+
+
+
 /////////////////////////////////////////////////////
 //////// يوزر 
 
@@ -216,54 +241,7 @@ user.roles.add(role1).then(() => {
 
 //////////////////////////////////////////////////
 ////////// فك الميووت /////////// 
-client.on("message", (message) => {
-  try {
-    if (!message.guild) {
-      return;
-    } else if (!message.content.startsWith(prefix)) {
-      return;
-    } else if (message.author.bot) {
-      return;
-    }
-    if (message.content.startsWith(prefix + "-mute")) {
-      let muteRole = "873617778664407050"; //تعديل مهم ، حط أيدي الميوت رول
-      let targetedMember = message.mentions.members.first();
-      if (targetedMember.roles.cache.has(muteRole)) {
-        message.channel.send("**هذا الشخص قد أخذ ميوت كتابي من قبل **");
-      } else if (!targetedMember.roles.cache.has(muteRole)) {
-        targetedMember.roles
-          .add(muteRole)
-          .then(() => {
-            message.channel.send(
-              `**${message.member.displayName}**- ${targetedMember} Has Been Muted.`
-            );
-          })
-          .then(() => {
-            message.guild.channels.cache.forEach((ch) => {
-              ch.updateOverwrite(muteRole, {
-                SEND_MESSAGES: false,
-                ADD_REACTIONS: false,
-              });
-            });
-          });
-      }
-    } else if (message.content.startsWith(prefix + "-unmute")) {
-      let targetedMember = message.mentions.members.first();
-      let muteRole = "873617778664407050";
-      if (!targetedMember.roles.cache.has(muteRole)) {
-        return message.channel.send("**هذا الشخص غير معاقب.**");
-      } else {
-        targetedMember.roles.remove(muteRole).then(() => {
-          message.channel.send(
-            `**${message.member.displayName}**- ${targetedMember} Has Been Unmuted.`
-          );
-        });
-      }
-    }
-  } catch {
-    /**/
-  }
-}); 
+ 
 
 /////////////////
 client.login(process.env.BOT_TOKEN);
