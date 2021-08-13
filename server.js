@@ -1,20 +1,7 @@
 
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const express = require('express');
-const app = express();
-const cmd = require("node-cmd");
-const ms = require("ms");
-const fs = require('fs');
-const convert = require("hh-mm-ss")
-const util = require("util")
-const gif = require("gif-search");
-const jimp = require("jimp");
-const guild = require('guild');
-const pretty = require("pretty-ms");
-const moment = require('moment');
-const request = require('request');
-const dateFormat = require('dateformat');
+
 
 
 
