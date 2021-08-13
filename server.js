@@ -288,36 +288,37 @@ client.on("message", hosam => {
     }
   }
 }) 
+ 
 
-client.on('message', msg=> {
-  if(msg.content.startsWith(prefix + 'help')) {
-    var embed = new Discord.MessageEmbed()
-    .setTitle(msg.guild.name)
-    .setTimestamp()
-    .setThumbnail(msg.guild.iconURL())
-    .addField("mute ",`ميوت كتابي `)
-    .addField("unmute",`لفك الميوت `)
-    .addField("say",`البوت يعيد كلامك `)
-    .addField("embed",`البوت يعيد كلامك ب إيمبد `)
-    .addField("avatar",`إظهار صورتك الشخصية`)
-    .addField("hide ",`لإخفاء الروم `)
-   .addField("unhide ",`لإظهار الروم `)
-   .addField("lock", ` لقفل الروم `)
-.addField("unlock", ` لفتح الروم `)
-.addField("server", `معلومات السيرفر `)
-.addField("kick", `طرد عضو `)
-.addField("ban", `تعضو بنيد `
-.addField("ping", `سرعة اتصال البوت`)
-.addField("nick", `تغير اسم العضو `)
-.addField("role", `اعطاء رتبة لشخص معين`)
-.addField("clear", `مسح الشات مع العدد`)
-.addField("invites", `عرض عدد الدعوات للسيرفر`)
-.addField("id", `عرض معلومات حسابك`)
-	  
-   msg.channel.send(embed)
-  }
-});  
-
+client.on('message', natro => {
+    if (natro.content === prefix + 'help') { 
+  let embed = new Discord.MessageEmbed()    
+  .setTitle(`⚙ | this Commands bot :`)  
+  .setTitle(`
+  **Admin Command**`)
+.addField(`\`#mute --> ميوت كاتبي لشخص بوقت\`
+    \`#unmute --> لفك ميوت عن شخص\`
+   \`#say --> لجعل البوت يعيد كلامك  بدون امبيد\`
+    \`#embed --> لجعل البوت يعيد كلامك بامبيد\`
+    \`#avatar --> اظهار صورتك الشخصية\`
+    \`#hide --> لاخفاء الروم\`
+    \`#unhide --> لعرض الروم\` 
+    \`#lock --> لقفل الروم\`
+    \`#unlock --> لفتح الروم\` 
+    \`#server --> لعرض معلومات السيرفر\`
+    \`#kick --> لطرد شخص\`
+    \`#ban --> لتبنيد شخص\`
+    \`#ping --> لعرض سرعت اتصال البوت\`
+    \`#nick --> لتغير نيك نيم لشخص معين\`
+    \`#role --> اعطار رول لشخص معين\` 
+    \`#clear --> مسح الشات مع العدد\` 
+    \`#invites --> عرض عدد الدعوات للسيرفر\` 
+    \`#id --> عرض معلومات حسابك\``, true)
+  .setThumbnail(`${client.user.displayAvatarURL({ dynamic: true })}`) 
+  .setFooter(`🛠 | Thx for using my cmd\nmy prefix = <${prefix}>`) 
+  natro.channel.send(embed);  
+    } 
+});    
 
 
 
