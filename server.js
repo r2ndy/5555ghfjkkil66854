@@ -32,154 +32,6 @@ client.on('message', message => {
 })
  
 
-client.on('message', async badboy => {
-if(badboy.content.startsWith(prefix + 'vmute')) {
-if(!badboy.member.hasPermission("MUTE_MEMBERS")) return badboy.channel.send(`You Don't have the permission :MUTE_MEMBERS`);
-let args = badboy.content.split(" ").slice(2).join(" ")
-let mention = badboy.mentions.members.first();
-if (mention.user.id == client.user.id) return badboy.channel.send("lol no");
-if (mention.user.id == badboy.guild.owner.id) return badboy.channel.send(`لا تستطيع اعطاء ميوت للاونر`);
-    
-
-   
-if(!mention) return badboy.channel.send(`**Usage: ${prefix}mute** \`<@user>\` \`time\``);
-
-  
-    if (mention.user.id === badboy.author.id) return badboy.channel.send(`لا تستطيع اعطاء ميوت لنفسك`);
-
-
-     if (mention.roles.highest.position >= badboy.member.roles.highest.position && badboy.author.id !== badboy.guild.ownerID) return badboy.channel.send(`لا تستطيع اعطاء ميوت لشخص اعلى منك`);
-
-if(!mention.voice.channel) return badboy.channel.send(`يجب ان يكون الشخص في روم صوتي`)
-if(!args) return badboy.channel.send(`**Usage: ${prefix}mute** <@user>time`)
-mention.send(new Discord.MessageEmbed()
-.setTitle(`you got voice mute in ${badboy.guild.name}`)
-.addField("time:", `${args}`)
-.addField("by:", `${badboy.author.username}`)
-)
-await mention.voice.setMute(true)
-badboy.channel.send(`**✅ - Successfully Voice Muted ${mention.user.tag} For ${args}**`)
-setTimeout(() => {
-mention.voice.setMute(false)
-},ms(args))
-}
-});//temp voice mute
-
-
-
-client.on('message', async badboy => {
-if(badboy.content.startsWith(prefix + 'vunmute')) {
-if(!badboy.member.hasPermission("MUTE_MEMBERS")) return badboy.channel.send(`You Don't have the permission :MUTE_MEMBERS`);
-let mention = badboy.mentions.members.first();
-if(!mention) return badboy.channel.send("منشن الشخص")
-if (mention.user.id == client.user.id) return badboy.channel.send("lol no");
-if (mention.user.id == badboy.guild.owner.id) return badboy.channel.send(`لا تستطيع  `);
-
-
-    if (mention.user.id === badboy.author.id) return badboy.channel.send(`لا تستطيع اعطاء ميوت لنفسك`);
-
-
-     if (mention.roles.highest.position >= badboy.member.roles.highest.position && badboy.author.id !== badboy.guild.ownerID) return badboy.channel.send(`لا تستطيع اعطاء ميوت لشخص اعلى منك`);
-if(!mention.voice.channel) return badboy.channel.send(`يجب ان يكون الشخص في روم صوتي`)
-
-mention.send(new Discord.MessageEmbed()
-.setTitle(`you got  unmute voice in ${badboy.guild.name}`)
-
-.addField("by:", `${badboy.author.username}`)
-)
-
-mention.voice.setMute(false)
-badboy.channel.send("تم فك الميوت الصوتي عن هاذا الشخص")
-}
-});//temp voice mute
-
-
-client.on('message', badboy => {
-  if(badboy.content.startsWith(prefix + "mute")){
-
-    
-    if(!badboy.member.hasPermission("MUTE_MEMBERS")) return badboy.channel.send("انت لا تمتلك صلاحيات كافية")
-   let mention = badboy.mentions.members.first();
-   if(!mention) return badboy.channel.send("منشن الشخص")
-
-let role = badboy.guild.roles.cache.find(ro => ro.name == 'Muted');
-if(!role) {
-    badboy.guild.roles.create({
-        data: {
-            name: 'Muted',
-            permissions: [],
-            color: 'random'
-        }
-    })
-}
-  
-if (mention.user.id == client.user.id) return badboy.channel.send("lol no");
-if (mention.user.id == badboy.guild.owner.id) return badboy.channel.send(`لا تستطيع اعطاء ميوت للاونر`);
-    
-
-badboy.guild.channels.cache.forEach(c => {
-c.updateOverwrite(role , {
-SEND_MESSAGES: false, 
-ADD_REACTIONS: false
-});
-})
-let args = badboy.content.split(" ").slice(2).join(" ")
-if(!args) return badboy.channel.send("اكتب الوقت")
-
-    badboy.channel.send(`تم اعطاء الشخص ميوت لمدة ${args}`)
-    mention.send(new Discord.MessageEmbed()
-    .setTitle(`you got mute in ${badboy.guild.name}`)
-    .addField("time:", `${args}`)
-    .addField("by:", `${badboy.author.username}`)
-    )
-mention.roles.add(role)
-
-setTimeout(() => {
-mention.roles.remove(role)
-
-},ms(args))
-  }
-})
-
-
-
-
-client.on('message', badboy => {
-  if(badboy.content.startsWith(prefix + "unmute")){
-
-
-    if(!badboy.member.hasPermission("MUTE_MEMBERS")) return badboy.channel.send("انت لا تمتلك صلاحيات كافية")
-   let mention = badboy.mentions.members.first();
-   if(!mention) return badboy.channel.send(":x:")
-       if (mention.user.id === badboy.author.id) return badboy.channel.send(`لا تستطيع فك ميوت لنفسك`);
-
-let role = badboy.guild.roles.cache.find(ro => ro.name == 'Muted');
-if(!role) {
-    badboy.guild.roles.create({
-        data: {
-            name: 'Muted',
-            permissions: [],
-            color: 'random'
-        }
-    })
-}
-
-if (mention.user.id == client.user.id) return badboy.channel.send("lol no");
-if (mention.user.id == badboy.guild.owner.id) return badboy.channel.send(`لا تستطيع فك ميوت  للاونر`);
-     if (mention.roles.highest.position >= badboy.member.roles.highest.position && badboy.author.id !== badboy.guild.ownerID) return badboy.channel.send(`لا تستطيع  فك الميوت لشخص اعلى منك`);
-
-if(!mention) return badboy.channel.send(`${prefix} mute @user time `);
-badboy.guild.channels.cache.forEach(c => {
-c.updateOverwrite(role , {
-SEND_MESSAGES: true, 
-ADD_REACTIONS: false
-});
-})
-badboy.channel.send("تم فك الميوت عن هاذا الشخص")
-mention.roles.remove(role)
-
-  }
-})//temp text mute
 
 
 
@@ -404,30 +256,86 @@ client.on("message", message => {
  
 });
 
+client.on("message", hosam => {
+  if(hosam.content.startsWith(prefix+"avatar")) {
+    if(hosam.channel.type=="dm") return hosam.channel.send(`❌ - **You can't use this command in dm**`);
+    let args = hosam.content.split(" ").slice(1).join(" ");
+    if(args == "server") {
+      if(hosam.guild.icon == null) return hosam.channel.send(`❌ - **No server avatar`);
+      let ser = new Discord.MessageEmbed()
+      .setAuthor(hosam.guild.name,hosam.guild.iconURL({dynamic:true}))
+      .setImage(hosam.guild.iconURL({size:2048 , dynamic:true}))
+      .setDescription(`**[Avatar link](${hosam.guild.iconURL({dynamic:true})})**`)
+      .setFooter(`Requested by ${hosam.author.tag}`,hosam.author.displayAvatarURL({dynamic:true}));
+      hosam.channel.send(ser)
+    } else {
+      let user = hosam.mentions.users.first() || client.users.cache.get(args) || hosam.author;
+      let member = new Discord.MessageEmbed()
+      .setAuthor(user.tag,user.displayAvatarURL({dynamic:true}))
+      .setImage(user.displayAvatarURL({size:2048 , dynamic:true}))
+      .setDescription(`**[Avatar link](${user.displayAvatarURL({dynamic:true})})**`)
+      .setFooter(`Requested by ${hosam.author.tag}`,hosam.author.displayAvatarURL({dynamic:true}));
+      hosam.channel.send(member)
+    }
+  }
+}) 
+
 client.on('message', badboy => {
   if(badboy.content.startsWith(prefix + "help")){
     badboy.author.send(`
-    vmute --> لاعطاء ميوت صوتي لشخص بوقت
-    vkick --> لطرد شخص من روم صوتي
-    mute --> ميوت كاتبي لشخص بوقت
-    unmute --> لفك ميوت عن شخص
-    say --> لجعل البوت يعيد كلامك  بدون امبيد
-    embed --> لجعل البوت يعيد كلامك بامبيد
-    hide --> لاخفاء الروم
-    unhide --> لعرض الروم 
-    lock --> لقفل الروم
-    unlock --> لفتح الروم 
-    server --> لعرض معلومات السيرفر
-    kick --> لطرد شخص
-    ban --> لتبنيد شخص
-    ping --> لعرض سرعت اتصال البوت
-    nick --> لتغير نيك نيم لشخص معين
-    role --> اعطار رول لشخص معين 
-    clear --> مسح الشات مع العدد 
     
+    #mute --> ميوت كاتبي لشخص بوقت
+    #unmute --> لفك ميوت عن شخص
+    #say --> لجعل البوت يعيد كلامك  بدون امبيد
+    #embed --> لجعل البوت يعيد كلامك بامبيد
+    #avatar --> اظهار صورتك الشخصية
+    #hide --> لاخفاء الروم
+    #unhide --> لعرض الروم 
+    #lock --> لقفل الروم
+    #unlock --> لفتح الروم 
+    #server --> لعرض معلومات السيرفر
+    #kick --> لطرد شخص
+    #ban --> لتبنيد شخص
+    #ping --> لعرض سرعت اتصال البوت
+    #nick --> لتغير نيك نيم لشخص معين
+    #role --> اعطار رول لشخص معين 
+    #clear --> مسح الشات مع العدد 
+    #invites --> عرض عدد الدعوات للسيرفر 
     `)
     badboy.react("✅")
   }
 })
 
+
+client.on('message', msg => {
+  if (msg.content.split(' ')[0].toLowerCase() == prefix + 'invites') {
+    let guild = msg.guild
+    var codes = [""]
+    var nul = 0
+
+    guild.fetchInvites()
+      .then(invites => {
+        invites.forEach(invite => {
+          if (invite.inviter === msg.author) {
+            nul += invite.uses
+            codes.push(`discord.gg/${invite.code}`)
+          }
+
+        })
+        if (nul > 0) {
+          const e = new Discord.MessageEmbed()
+            .addField(`${msg.author.username}`, `لقد قمت بدعوة **${nul}** شخص`)
+            .setColor('#36393e')
+          msg.channel.send(e)
+        } else {
+          var embed = new Discord.MessageEmbed()
+            .setColor("#000000")
+            .addField(`${msg.author.username}`, `لم تقم بدعوة أي شخص للسيرفر`)
+
+          msg.channel.send({ embed: embed });
+          return;
+        }
+      })
+  }
+}) 
 client.login(process.env.BOT_TOKEN);
