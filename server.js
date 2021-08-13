@@ -22,7 +22,7 @@ client.on("message", (message) => {
           .add(muteRole)
           .then(() => {
             message.channel.send(
-              `**${message.member.displayName}**`- ${targetedMember} Has Been Muted.
+              `**${message.member.displayName}**`- `**${targetedMember} Has Been Muted.**`
             );
           })
           .then(() => {
