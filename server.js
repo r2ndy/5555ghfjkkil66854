@@ -313,6 +313,7 @@ client.on('message', msg=> {
 .addField("clear", `مسح الشات مع العدد`)
 .addField("invites", `عرض عدد الدعوات للسيرفر`)
 .addField("id", `عرض معلومات حسابك`)
+	  
    msg.channel.send(embed)
   }
 });  
