@@ -1,7 +1,6 @@
-
 const Discord = require('discord.js');
 const client = new Discord.Client();
-
+const cmd = require("node-cmd");
 const fs = require('fs');
 const ms = require('ms');
 
