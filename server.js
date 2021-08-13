@@ -2,7 +2,56 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 
 const prefix = "#"
-
+//////////////
+client.on("message", (message) => {
+  try {
+    if (!message.guild) {
+      return;
+    } else if (!message.content.startsWith(prefix)) {
+      return;
+    } else if (message.author.bot) {
+      return;
+    }
+    if (message.content.startsWith(prefix + "mute")) {
+      let muteRole = "873617778664407050"; //تعديل مهم ، حط أيدي الميوت رول
+      let targetedMember = message.mentions.members.first();
+      if (targetedMember.roles.cache.has(muteRole)) {
+        message.channel.send("هذا الشخص قد أخذ ميوت كتابي من قبل ");
+      } else if (!targetedMember.roles.cache.has(muteRole)) {
+        targetedMember.roles
+          .add(muteRole)
+          .then(() => {
+            message.channel.send(
+              **${message.member.displayName}**- ${targetedMember} Has Been Muted.
+            );
+          })
+          .then(() => {
+            message.guild.channels.cache.forEach((ch) => {
+              ch.updateOverwrite(muteRole, {
+                SEND_MESSAGES: false,
+                ADD_REACTIONS: false,
+              });
+            });
+          });
+      }
+    } else if (message.content.startsWith(prefix + "unmute")) {
+      let targetedMember = message.mentions.members.first();
+      let muteRole = "873505153502806027";
+      if (!targetedMember.roles.cache.has(muteRole)) {
+        return message.channel.send("هذا الشخص غير معاقب.");
+      } else {
+        targetedMember.roles.remove(muteRole).then(() => {
+          message.channel.send(
+            **${message.member.displayName}**- ${targetedMember} Has Been Unmuted.
+          );
+        });
+      }
+    }
+  } catch {
+    /**/
+  }
+});
+//////////////
 
 
 client.on('message', message => {
