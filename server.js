@@ -290,8 +290,8 @@ client.on("message", hosam => {
 }) 
 
 client.on('message', badboy => {
-  if(badboy.content.startsWith(prefix + "help")){
-	 var embed = new Discord.MessageEmbed()
+  if(badboy.content === prefix + "help"){
+    
     badboy.author.send(`
     
     #mute --> ميوت كاتبي لشخص بوقت
@@ -313,9 +313,9 @@ client.on('message', badboy => {
     #invites --> عرض عدد الدعوات للسيرفر 
     #id --> عرض معلومات حسابك
     `)
-    badboy.react("✅")
+    badboy.react(":white_check_mark:")
   }
-})
+}) 
 
 client.on('message',async message => {
   if(message.content.startsWith("#voice")) {
