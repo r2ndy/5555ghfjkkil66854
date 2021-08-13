@@ -30,23 +30,9 @@ client.on('message', message => {
     message.channel.send(EMBED)
   }
 })
- 
 
 
 
-
-client.on('message', badboy => {
-  if(badboy.content.startsWith(prefix + "avatar")){
-    let user = badboy.mentions.users.first()|| client.users.cache.get(badboy.content.split(' ')[1])
-if(!user) return badboy.channel.send("منشن الشخص او ايديه")
-var embed = new Discord.MessageEmbed()
-.setDescription(`[Avatar Link](${user.avatarURL({dynamic: true})})`)
-.setTimestamp()
-.setImage(`${user.avatarURL({dynamic: true})}`)
-.setFooter(`request by ${badboy.author.username}`)
-badboy.channel.send(embed)
-  }
-})//avatar
 
 client.on('message', badboy => {
   if(badboy.content.startsWith(prefix + "embed")){
@@ -306,7 +292,23 @@ client.on('message', badboy => {
   }
 })
 
-
+client.on('message',async message => {
+  if(message.content.startsWith("#voice")) {
+  if(!message.guild.member(message.author).hasPermissions('MANAGE_CHANNELS')) return message.reply('❌ **ليس لديك الصلاحيات الكافية**');
+  if(!message.guild.member(client.user).hasPermissions(['MANAGE_CHANNELS','MANAGE_ROLES_OR_PERMISSIONS'])) return message.reply('❌ **ليس معي الصلاحيات الكافية**');
+  message.channel.send('**تم عمل الروم بنجاح**');
+  message.guild.createChannel(`Voice Online : [ ${message.guild.members.filter(m => m.voiceChannel).size} ]` , 'voice').then(c => {
+    console.log(`Voice online channel setup for guild: \n ${message.guild.name}`);
+    c.overwritePermissions(message.guild.id, {
+      CONNECT: false,
+      SPEAK: false
+    });
+    setInterval(() => {
+      c.setName(`Voice Online : [ ${message.guild.members.filter(m => m.voiceChannel).size} ]`)
+    },1000);
+  });
+  }
+});
 client.on('message', msg => {
   if (msg.content.split(' ')[0].toLowerCase() == prefix + 'invites') {
     let guild = msg.guild
