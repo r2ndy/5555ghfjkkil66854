@@ -291,7 +291,7 @@ client.on("message", hosam => {
  
 
 client.on('message', natro => {
-    if (natro.content === prefix + 'help') { 
+    if (natro.content === prefix + '#help') { 
   let embed = new Discord.MessageEmbed()    
   .setTitle(`⚙ | this Commands bot :`)  
   .setTitle(`
