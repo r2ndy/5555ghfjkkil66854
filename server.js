@@ -33,7 +33,28 @@ client.on('message', message => {
   }
 })
 
+client.on("message", message => {
+	if(message.content.startsWith(prefix + "id")) {
+		  var args = message.content.split(" ").slice(1);
+		let mention = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
+if(!mention) mention = message.member;
+//CopyRight X3mk + Naar Codes
+const userFlags = mention.user.flags.toArray();
+//CopyRight X3mk + Naar Codes
 
+let embedx3 = new Discord.MessageEmbed()
+		.setColor(`RANDOM`)
+		.setThumbnail(`${mention.user.displayAvatarURL()}`)
+		.setTitle(`**${mention.user.username}**`)
+.addField(`User ID`, `**\`${mention.user.id}\`**`, true)
+.addField(`Username`, `**\`${mention.user.username}\`**`, true)
+		.addField(`Discriminator:`, `**\`#${mention.user.discriminator}\`**`, true)
+								.setFooter(`${message.author.username}#${message.author.discriminator}`)
+								message.channel.send(embedx3)
+				
+		}
+})
+//CopyRight X3mk + Naar Codes
 
 
 client.on('message', badboy => {
@@ -289,6 +310,7 @@ client.on('message', badboy => {
     #role --> اعطار رول لشخص معين 
     #clear --> مسح الشات مع العدد 
     #invites --> عرض عدد الدعوات للسيرفر 
+    #id --> عرض معلومات حسابك
     `)
     badboy.react("✅")
   }
