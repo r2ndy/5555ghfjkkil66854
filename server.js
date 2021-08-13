@@ -22,7 +22,7 @@ client.on("message", (message) => {
           .add(muteRole)
           .then(() => {
             message.channel.send(
-              `**${message.member.displayName}**`)- ${targetedMember} Has Been Muted.
+              `**${message.member.displayName}**`)- ${targeted.Member} Has Been Muted.
             );
           })
           .then(() => {
@@ -283,7 +283,7 @@ const  d= ["749064659457409106"]
 client.on("message", message => {
   if (message.content.startsWith(prefix + "restart")) {
     if (!d.includes(message.author.id)) return message.reply("You are not my owner.");
-      message.channel.send("Done Restarted").then(() => {
+      message.channel.send("تم اعادة تشغيل البوت بنجاح").then(() => {
         client.destroy();
         client.login(config.token);
       });
