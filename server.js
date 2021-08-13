@@ -291,6 +291,7 @@ client.on("message", hosam => {
 
 client.on('message', badboy => {
   if(badboy.content.startsWith(prefix + "help")){
+	 var embed = new Discord.MessageEmbed()
     badboy.author.send(`
     
     #mute --> ميوت كاتبي لشخص بوقت
