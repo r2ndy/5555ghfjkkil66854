@@ -1,10 +1,8 @@
- 
-
-
-
 
 const Discord = require('discord.js');
 const client = new Discord.Client();
+const express = require('express');
+const app = express();
 const cmd = require("node-cmd");
 const ms = require("ms");
 const fs = require('fs');
