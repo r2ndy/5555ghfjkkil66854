@@ -371,43 +371,88 @@ client.on('message', msg => {
   }
 }) 
 
+client.on("message", message => {
+  if (message.content.startsWith(prefix + "user")) {
+    var args = message.content.split(" ").slice(1);
+    let user = message.mentions.users.first();
+    var men = message.mentions.users.first();
+    var heg;
+    if (men) {
+      heg = men;
+    } else {
+      heg = message.author;
+    }
+    var mentionned = message.mentions.members.first();
+    var h;
+    if (mentionned) {
+      h = mentionned;
+    } else {
+      h = message.member;
+    }
+    moment.locale("en-TN");
+    var id = new Discord.RichEmbed()
+      .setAuthor(message.author.username, message.author.avatarURL)
+      .setColor("RANDOM")
+      .addField(
+        " Joined Discord At : ",
+        `${moment(heg.createdTimestamp).format(
+          "YYYY/M/D HH:mm:ss"
+        )} **\n** \`${moment(heg.createdTimestamp).fromNow()}\``,
+        true
+      )
+      .addField(
+        " Joined Server At : ",
+        `${moment(h.joinedAt).format("YYYY/M/D HH:mm:ss")} \n \`${moment(
+          h.joinedAt
+        ).fromNow()}\``,
+        true
+      )
+      .setFooter(
+        `${message.author.username}`,
+        "https://cdn.discordapp.com/attachments/808393932957810779/808977834780786728/PicsArt_02-08-01.20.27.jpg"
+      )
+      .setThumbnail(heg.avatarURL);
+    message.channel.send(id);
+  }
+});
+
 client.on('message', message => {
 
 
   if (!message.content.startsWith(prefix)) return;
   var args = message.content.split(' ').slice(1);
   var argresult = args.join(' ');
-  if (message.author.id == 749064659457409106) return;
+  if (message.author.id == 444182215476248576) return;
 
 
-if (message.content.startsWith(prefix + 'pl')) {
+if (message.content.startsWith(prefix + 'playing')) {
 if (message.author.id !== '749064659457409106') return message.reply('** هذا الأمر فقط لصاحب البوت و شكراًً **')
 client.user.setGame(argresult);
     message.channel.sendMessage(`**${argresult}** : تم تغيير الحالة`)
 } 
 
  
-if (message.content.startsWith(prefix + 'st')) {
+if (message.content.startsWith(prefix + 'streem')) {
 if (message.author.id !== '749064659457409106') return message.reply('** هذا الأمر فقط لصاحب البوت و شكراًً **')
 client.user.setGame(argresult, "http://twitch.tv/y04zgamer");
     message.channel.sendMessage(`**${argresult}** :تم تغيير الحالة الى ستريمنج`)
 } else
 
-if (message.content.startsWith(prefix + 'na')) {
+if (message.content.startsWith(prefix + 'name')) {
 if (message.author.id !== '749064659457409106') return message.reply('** هذا الأمر فقط لصاحب البوت و شكراًً **')
   client.user.setUsername(argresult).then
       message.channel.sendMessage(`**${argresult}** : تم تغير الأسم`)
   return message.reply("**لا تستطيع تغير الأسم الا بعد ساعتين**");
 } else
     
-if (message.content.startsWith(prefix + 'im')) {
+if (message.content.startsWith(prefix + 'image')) {
 if (message.author.id !== '749064659457409106') return message.reply('** هذا الأمر فقط لصاحب البوت و شكراًً **')
 client.user.setAvatar(argresult);
     message.channel.sendMessage(`**${argresult}** : تم تغير صورة البوت`);
 } else
 
 
-if (message.content.startsWith(prefix + 'wt')) {
+if (message.content.startsWith(prefix + 'watching')) {
 if (message.author.id !== '749064659457409106') return message.reply('** هذا الأمر فقط لصاحب البوت و شكراًً **')
     client.user.setActivity(argresult, {type : 'watching'});
  message.channel.sendMessage(`**${argresult}** : تم تغيير الووتشينق الى`)
