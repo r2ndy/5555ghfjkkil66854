@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const moment = require('moment');
+
 
 const prefix = "#"
 //////////////
@@ -373,48 +373,48 @@ client.on('message', msg => {
 }) 
 
 
-client.on("message", message => {
-  if (message.content.startsWith(prefix + "user")) {
-    var args = message.content.split(" ").slice(1);
-    let user = message.mentions.users.first();
-    var men = message.mentions.users.first();
-    var heg;
-    if (men) {
-      heg = men;
-    } else {
-      heg = message.author;
+client.on('message', message => {
+   if (message.content.startsWith ("#user")) {
+       if(!message.channel.guild) return message.reply('** This command only for servers **');
+
+               var mentionned = message.mentions.users.first();
+    var mentionavatar;
+      if(mentionned){
+          var mentionavatar = mentionned;
+      } else {
+          var mentionavatar = message.author;
+          
+      }
+      message.guild.fetchInvites()
+       .then(invites =>{
+ if(!invites.find(invite => invite.inviter.id === `${mentionavatar.id}`)) {
+     let embed = new Discord.RichEmbed()
+  .setColor(0xd3d0c4)
+   .setThumbnail(`${mentionavatar.avatarURL}`)
+  .addField("Name:",`<@` + `${mentionavatar.id}` + `>`, true)
+  .addField('Discrim:',"#" +  `${mentionavatar.discriminator}`, true)
+   .addField("ID:", "**" + `${mentionavatar.id}` + "**", true)
+  .addField("Create At:", "**" + `${mentionavatar.createdAt}` + "**", true)
+  .addField("Invites:", `**0**` ,true)
+     .setFooter(`©  Dream™ `)
+      message.channel.sendEmbed(embed);
+ }else{
+   let embed = new Discord.RichEmbed()
+  .setColor(0xd3d0c4)
+   .setThumbnail(`${mentionavatar.avatarURL}`)
+  .addField("Name:",`<@` + `${mentionavatar.id}` + `>`, true)
+  .addField('Discrim:',"#" +  `${mentionavatar.discriminator}`, true)
+   .addField("ID:", "**" + `${mentionavatar.id}` + "**", true)
+  .addField("Create At:", "**" + `${mentionavatar.createdAt}` + "**", true)
+
+  .addField("Invites:", `**${invites.find(invite => invite.inviter.id === `${mentionavatar.id}`).uses}**` ,true)
+    .setFooter(`©  Dream™ `)
+
+  message.channel.sendEmbed(embed);
+ }
+ 
+       })
     }
-    var mentionned = message.mentions.members.first();
-    var h;
-    if (mentionned) {
-      h = mentionned;
-    } else {
-      h = message.member;
-    }
-    moment.locale("en-TN");
-    var id = new Discord.RichEmbed()
-      .setAuthor(message.author.username, message.author.avatarURL)
-      .setColor("RANDOM")
-      .addField(
-        " Joined Discord At : ",
-        `${moment(heg.createdTimestamp).format(
-          "YYYY/M/D HH:mm:ss"
-        )} **\n** \`${moment(heg.createdTimestamp).fromNow()}\``,
-        true
-      )
-      .addField(
-        " Joined Server At : ",
-        `${moment(h.joinedAt).format("YYYY/M/D HH:mm:ss")} \n \`${moment(
-          h.joinedAt
-        ).fromNow()}\``,
-        true
-      )
-      .setFooter(
-        `${message.author.username}`,
-        "https://cdn.discordapp.com/attachments/808393932957810779/808977834780786728/PicsArt_02-08-01.20.27.jpg"
-      )
-      .setThumbnail(heg.avatarURL);
-    message.channel.send(id);
-  }
 });
+
 client.login(process.env.BOT_TOKEN);
