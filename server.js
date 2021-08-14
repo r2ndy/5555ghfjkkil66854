@@ -399,7 +399,7 @@ client.on('message', message => {
      .setFooter(`©  Dream™ `)
       message.channel.sendEmbed(embed);
  }else{
-   let embed = new Discord.RichEmbed()
+   let embed = new Discord.MessageEmbed()
   .setColor(0xd3d0c4)
    .setThumbnail(`${mentionavatar.avatarURL}`)
   .addField("Name:",`<@` + `${mentionavatar.id}` + `>`, true)
@@ -408,7 +408,7 @@ client.on('message', message => {
   .addField("Create At:", "**" + `${mentionavatar.createdAt}` + "**", true)
 
   .addField("Invites:", `**${invites.find(invite => invite.inviter.id === `${mentionavatar.id}`).uses}**` ,true)
-    .setFooter(`©  Dream™ `)
+    .setFooter(`© R2ndy `)
 
   message.channel.sendEmbed(embed);
  }
