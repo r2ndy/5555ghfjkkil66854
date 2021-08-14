@@ -423,14 +423,17 @@ client.on("message", (message) => {
     client.user.setActivity(`${prefix}help`, { type: "WATCHING" });
     message.reply("Done\n  Now Activity is WATCHING  ");
   }
+ if (!developers.includes(message.author.id)) return;
   if (message.content == prefix + "setlis") {
     client.user.setActivity(`${prefix}help`, { type: "LISTENING" });
     message.reply("Done\n  Now Activity is LISTENING ");
   }
+ if (!developers.includes(message.author.id)) return;
   if (message.content == prefix + "setplay") {
     client.user.setActivity(`${prefix}help`, { type: "PLAYING" });
     message.reply("Done\n  Now Activity is PLAYING  ");
   }
+ if (!developers.includes(message.author.id)) return;
   if (message.content == prefix + "setst") {
     client.user.setActivity(`${prefix}help`, { type: "STREAMING" });
     message.reply("Done\n  Now Activity is STREAMING ");
