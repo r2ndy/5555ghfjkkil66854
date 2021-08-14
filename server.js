@@ -317,7 +317,7 @@ client.on("message", message => {
     #id --> عرض معلومات حسابك   
  
    `)
-   message.author.sendEmbed(embed)
+   message.author.send(embed)
    
    }
    });  
