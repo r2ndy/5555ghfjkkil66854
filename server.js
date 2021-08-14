@@ -293,7 +293,7 @@ client.on("message", hosam => {
 
 client.on("message", message => {
     if (message.content === (prefix + "help")) {
-     var embed = new Discord.RichEmbed() 
+    const embed = new Discor.MessageEmbed()  
          .setColor("#580e6b")
          .setThumbnail(message.author.avatarURL)
          .setDescription(`
