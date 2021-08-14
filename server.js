@@ -293,7 +293,7 @@ client.on("message", hosam => {
 
 client.on("message", message => {
     if (message.content === (prefix + "help")) {
-    const embed = new Discor.MessageEmbed()  
+    const embed = Discor.MessageEmbed()  
          .setColor("#580e6b")
          .setThumbnail(message.author.avatarURL)
          .setDescription(`
