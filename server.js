@@ -410,7 +410,7 @@ client.on('message', message => {
   .addField("Invites:", `**${invites.find(invite => invite.inviter.id === `${mentionavatar.id}`).uses}**` ,true)
     .setFooter(`© R2ndy `)
 
-  message.channel.sendEmbed(embed);
+  message.channel.send(embed);
  }
  
        })
