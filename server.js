@@ -416,59 +416,25 @@ client.on("message", message => {
   }
 });
 
-client.on('message', message => {
-
-
-  if (!message.content.startsWith(prefix)) return;
-  var args = message.content.split(' ').slice(1);
-  var argresult = args.join(' ');
-  if (message.author.id == 444182215476248576) return;
-
-
-if (message.content.startsWith(prefix + 'playing')) {
-if (message.author.id !== '749064659457409106') return message.reply('** هذا الأمر فقط لصاحب البوت و شكراًً **')
-client.user.setGame(argresult);
-    message.channel.sendMessage(`**${argresult}** : تم تغيير الحالة`)
-} 
-
- 
-if (message.content.startsWith(prefix + 'streem')) {
-if (message.author.id !== '749064659457409106') return message.reply('** هذا الأمر فقط لصاحب البوت و شكراًً **')
-client.user.setGame(argresult, "http://twitch.tv/y04zgamer");
-    message.channel.sendMessage(`**${argresult}** :تم تغيير الحالة الى ستريمنج`)
-} else
-
-if (message.content.startsWith(prefix + 'name')) {
-if (message.author.id !== '749064659457409106') return message.reply('** هذا الأمر فقط لصاحب البوت و شكراًً **')
-  client.user.setUsername(argresult).then
-      message.channel.sendMessage(`**${argresult}** : تم تغير الأسم`)
-  return message.reply("**لا تستطيع تغير الأسم الا بعد ساعتين**");
-} else
-    
-if (message.content.startsWith(prefix + 'image')) {
-if (message.author.id !== '749064659457409106') return message.reply('** هذا الأمر فقط لصاحب البوت و شكراًً **')
-client.user.setAvatar(argresult);
-    message.channel.sendMessage(`**${argresult}** : تم تغير صورة البوت`);
-} else
-
-
-if (message.content.startsWith(prefix + 'watching')) {
-if (message.author.id !== '749064659457409106') return message.reply('** هذا الأمر فقط لصاحب البوت و شكراًً **')
-    client.user.setActivity(argresult, {type : 'watching'});
- message.channel.sendMessage(`**${argresult}** : تم تغيير الووتشينق الى`)
+const developers = "749064659457409106";//ايدي حسابك
+client.on("message", (message) => {
+  if (!developers.includes(message.author.id)) return;
+  if (message.content.startsWith(prefix + "setwat")) {
+    client.user.setActivity(`${prefix}help`, { type: "WATCHING" });
+    message.reply("Done\n  Now Activity is WATCHING  ");
+  }
+  if (message.content == prefix + "setlis") {
+    client.user.setActivity(`${prefix}help`, { type: "LISTENING" });
+    message.reply("Done\n  Now Activity is LISTENING ");
+  }
+  if (message.content == prefix + "setplay") {
+    client.user.setActivity(`${prefix}help`, { type: "PLAYING" });
+    message.reply("Done\n  Now Activity is PLAYING  ");
+  }
+  if (message.content == prefix + "setst") {
+    client.user.setActivity(`${prefix}help`, { type: "STREAMING" });
+    message.reply("Done\n  Now Activity is STREAMING ");
 }
-    if(message.content === adminprefix + "restart") {
-      if (!devs.includes(message.author.id)) return;
-          message.channel.send(`:warning:️ **Bot restarting by ${message.author.username}**`);
-        console.log("\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        console.log(`⚠️ Bot restarting... ⚠️`);
-        console.log("===============================================\n\n");
-        client.destroy();
-        child_process.fork(__dirname + "server.js");
-        console.log(`Bot Successfully Restarted`);
-    }
-  
-  });
-
+});
 
 client.login(process.env.BOT_TOKEN);
