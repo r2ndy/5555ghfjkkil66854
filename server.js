@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const moment = require('moment');
+const moment = new require("moment");
 const prefix = "#"
 //////////////
 
@@ -371,6 +372,7 @@ client.on('message', msg => {
   }
 }) 
 
+
 client.on("message", message => {
   if (message.content.startsWith(prefix + "user")) {
     var args = message.content.split(" ").slice(1);
@@ -415,29 +417,4 @@ client.on("message", message => {
     message.channel.send(id);
   }
 });
-
-const developers = "749064659457409106";//ايدي حسابك
-client.on("message", (message) => {
-  if (!developers.includes(message.author.id)) return;
-  if (message.content.startsWith(prefix + "setwat")) {
-    client.user.setActivity(`${prefix}help`, { type: "WATCHING" });
-    message.reply("Done\n  Now Activity is WATCHING  ");
-  }
- if (!developers.includes(message.author.id)) return;
-  if (message.content == prefix + "setlis") {
-    client.user.setActivity(`${prefix}help`, { type: "LISTENING" });
-    message.reply("Done\n  Now Activity is LISTENING ");
-  }
- if (!developers.includes(message.author.id)) return;
-  if (message.content == prefix + "setplay") {
-    client.user.setActivity(`${prefix}help`, { type: "PLAYING" });
-    message.reply("Done\n  Now Activity is PLAYING  ");
-  }
- if (!developers.includes(message.author.id)) return;
-  if (message.content == prefix + "setst") {
-    client.user.setActivity(`${prefix}help`, { type: "STREAMING" });
-    message.reply("Done\n  Now Activity is STREAMING ");
-}
-});
-
 client.login(process.env.BOT_TOKEN);
