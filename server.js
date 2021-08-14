@@ -291,34 +291,36 @@ client.on("message", hosam => {
  
 
 
-client.on('message', message => { 
-if (message.content === prefix + '#help') { 
-const embed = new Discord.MessageEmbed()
-.setTitle(` **Admin Command**`)
-.addField(
-`\`#mute --> ميوت كاتبي لشخص بوقت\`
- \`#unmute --> لفك ميوت عن شخص\` 
- \`#say --> لجعل البوت يعيد كلامك بدون امبيد\`
- \`#embed --> لجعل البوت يعيد كلامك بامبيد\`
- \`#avatar --> اظهار صورتك الشخصية\`
- \`#hide --> لاخفاء الروم\`
- \`#unhide --> لعرض الروم\`
- \`#lock --> لقفل الروم\`
- \`#unlock --> لفتح الروم\`
- \`#server --> لعرض معلومات السيرفر\`
- \`#kick --> لطرد شخص\` 
- \`#ban --> لتبنيد شخص\`
- \`#ping --> لعرض سرعت اتصال البوت\` 
- \`#nick --> لتغير نيك نيم لشخص معين\` 
- \`#role --> اعطار رول لشخص معين\` 
- \`#clear --> مسح الشات مع العدد\`
- \`#invites --> عرض عدد الدعوات للسيرفر\`
- \`#id --> عرض معلومات حسابك\``, true) 
-.setThumbnail(`${client.user.displayAvatarURL({ dynamic: true })}`)
- .setFooter(`🛠 | Thx for using my cmd\nmy prefix = <${prefix}>`) 
-message.channel.send(embed); 
-}
-});
+client.on("message", message => {
+    if (message.content === (prefix + "help")) {
+     const embed = new Discord.RichEmbed() 
+         .setColor("#580e6b")
+         .setThumbnail(message.author.avatarURL)
+         .setDescription(`
+    #mute --> ميوت كاتبي لشخص بوقت
+    #unmute --> لفك ميوت عن شخص
+    #say --> لجعل البوت يعيد كلامك  بدون امبيد
+    #embed --> لجعل البوت يعيد كلامك بامبيد
+    #avatar --> اظهار صورتك الشخصية
+    #hide --> لاخفاء الروم
+    #unhide --> لعرض الروم 
+    #lock --> لقفل الروم
+    #unlock --> لفتح الروم 
+    #server --> لعرض معلومات السيرفر
+    #kick --> لطرد شخص
+    #ban --> لتبنيد شخص
+    #ping --> لعرض سرعت اتصال البوت
+    #nick --> لتغير نيك نيم لشخص معين
+    #role --> اعطار رول لشخص معين 
+    #clear --> مسح الشات مع العدد 
+    #invites --> عرض عدد الدعوات للسيرفر 
+    #id --> عرض معلومات حسابك   
+ 
+   `)
+   message.author.sendEmbed(embed)
+   
+   }
+   });  
 
 client.on('message',async message => {
   if(message.content.startsWith("#voice")) {
@@ -368,4 +370,50 @@ client.on('message', msg => {
       })
   }
 }) 
+
+client.on('message', message => {
+
+
+  if (!message.content.startsWith(prefix)) return;
+  var args = message.content.split(' ').slice(1);
+  var argresult = args.join(' ');
+  if (message.author.id == 749064659457409106) return;
+
+
+if (message.content.startsWith(prefix + 'pl')) {
+if (message.author.id !== '749064659457409106') return message.reply('** هذا الأمر فقط لصاحب البوت و شكراًً **')
+client.user.setGame(argresult);
+    message.channel.sendMessage(`**${argresult}** : تم تغيير الحالة`)
+} 
+
+ 
+if (message.content.startsWith(prefix + 'st')) {
+if (message.author.id !== '749064659457409106') return message.reply('** هذا الأمر فقط لصاحب البوت و شكراًً **')
+client.user.setGame(argresult, "http://twitch.tv/y04zgamer");
+    message.channel.sendMessage(`**${argresult}** :تم تغيير الحالة الى ستريمنج`)
+} else
+
+if (message.content.startsWith(prefix + 'na')) {
+if (message.author.id !== '749064659457409106') return message.reply('** هذا الأمر فقط لصاحب البوت و شكراًً **')
+  client.user.setUsername(argresult).then
+      message.channel.sendMessage(`**${argresult}** : تم تغير الأسم`)
+  return message.reply("**لا تستطيع تغير الأسم الا بعد ساعتين**");
+} else
+    
+if (message.content.startsWith(prefix + 'im')) {
+if (message.author.id !== '749064659457409106') return message.reply('** هذا الأمر فقط لصاحب البوت و شكراًً **')
+client.user.setAvatar(argresult);
+    message.channel.sendMessage(`**${argresult}** : تم تغير صورة البوت`);
+} else
+
+
+if (message.content.startsWith(prefix + 'wt')) {
+if (message.author.id !== '749064659457409106') return message.reply('** هذا الأمر فقط لصاحب البوت و شكراًً **')
+    client.user.setActivity(argresult, {type : 'watching'});
+ message.channel.sendMessage(`**${argresult}** : تم تغيير الووتشينق الى`)
+}
+
+ });
+
+
 client.login(process.env.BOT_TOKEN);
