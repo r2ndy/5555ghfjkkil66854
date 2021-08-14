@@ -373,48 +373,6 @@ client.on('message', msg => {
 }) 
 
 
-client.on('message', message => {
-   if (message.content.startsWith ("#user")) {
-       if(!message.channel.guild) return message.reply('** This command only for servers **');
 
-               var mentionned = message.mentions.users.first();
-    var mentionavatar;
-      if(mentionned){
-          var mentionavatar = mentionned;
-      } else {
-          var mentionavatar = message.author;
-          
-      }
-      message.guild.fetchInvites()
-       .then(invites =>{
- if(!invites.find(invite => invite.inviter.id === `${mentionavatar.id}`)) {
-     let embed = new Discord.RichEmbed()
-  .setColor(0xd3d0c4)
-   .setThumbnail(`${mentionavatar.avatarURL}`)
-  .addField("Name:",`<@` + `${mentionavatar.id}` + `>`, true)
-  .addField('Discrim:',"#" +  `${mentionavatar.discriminator}`, true)
-   .addField("ID:", "**" + `${mentionavatar.id}` + "**", true)
-  .addField("Create At:", "**" + `${mentionavatar.createdAt}` + "**", true)
-  .addField("Invites:", `**0**` ,true)
-     .setFooter(`©  Dream™ `)
-      message.channel.sendEmbed(embed);
- }else{
-   let embed = new Discord.MessageEmbed()
-  .setColor(0xd3d0c4)
-   .setThumbnail(`${mentionavatar.avatarURL}`)
-  .addField("Name:",`<@` + `${mentionavatar.id}` + `>`, true)
-  .addField('Discrim:',"#" +  `${mentionavatar.discriminator}`, true)
-   .addField("ID:", "**" + `${mentionavatar.id}` + "**", true)
-  .addField("Create At:", "**" + `${mentionavatar.createdAt}` + "**", true)
-
-  .addField("Invites:", `**${invites.find(invite => invite.inviter.id === `${mentionavatar.id}`).uses}**` ,true)
-    .setFooter(`© R2ndy `)
-
-  message.channel.send(embed);
- }
- 
-       })
-    }
-});
 
 client.login(process.env.BOT_TOKEN);
