@@ -226,7 +226,7 @@ ${msgs.size} messages cleared
 client.on("message", message => {
   let cmd = message.content.toLowerCase().split(" ")[0];
   cmd = cmd.slice(prefix.length);
-  if (cmd === "role") {
+  if (cmd === "#role") {
     if (!message.channel.guild || message.author.bot) return;
     let args = message.content.split(" ");
     let user = message.guild.member(
