@@ -298,8 +298,8 @@ client.on("message", message => {
          .setColor("#580e6b")
          .setThumbnail(message.author.avatarURL)
          .setDescription(`
-    #mute --> ميوت كاتبي لشخص بوقت
-    #unmute --> لفك ميوت عن شخص
+     
+         
     #say --> لجعل البوت يعيد كلامك  بدون امبيد
     #embed --> لجعل البوت يعيد كلامك بامبيد
     #avatar --> اظهار صورتك الشخصية
