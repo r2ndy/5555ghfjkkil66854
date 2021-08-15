@@ -198,7 +198,7 @@ badboy.channel.send("تم تبنيد هاذا الشخص")
 client.on("message", async message => {
     let command = message.content.toLowerCase().split(" ")[0];
     command = command.slice(prefix.length);
-    if (command == "#clear" || command == "#مسح") {
+    if (command == "clear" || command == "مسح") {
         message.delete({ timeout: 0 })
         if (!message.channel.guild) return message.reply(`** This Command For Servers Only**`);
         if (!message.member.hasPermission('MANAGE_GUILD')) return message.channel.send(`> ** You don't have perms ❌**`);
