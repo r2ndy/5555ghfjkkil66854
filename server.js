@@ -375,7 +375,91 @@ client.on('message', msg => {
       })
   }
 }) 
-
+ 
+///////////// mute ///// 
+client.on("message", (message) => {
+    if (message.content.toLowerCase().startsWith(prefix + "mute")) {
+        if (!message.member.hasPermission('MANAGE_ROLES')) return message.channel.send(
+            new Discord.MessageEmbed().setColor("RED")
+            .setDescription("❌" + " **You Need `MANAGE_ROLES` Permission To Use This Command!**")
+            .setFooter(`Request By ${message.author.tag}`).setTimestamp()
+        )
+        if (!message.guild.me.hasPermission('MANAGE_ROLES')) return message.channel.send(
+            new Discord.MessageEmbed().setColor("RED")
+            .setDescription("❌" + " **I Can't Mute Any Member In This Server Becuse I Don't Have `MANAGE_ROLES` Permission!**")
+            .setFooter(`Request By ${message.author.tag}`).setTimestamp()
+        )
+        let member = message.mentions.users.first() || client.users.cache.get(message.content.split(' ')[1])
+        var user = message.guild.member(member)
+        if (!user) return message.channel.send(
+            new Discord.MessageEmbed().setColor("RED")
+            .setDescription("❌" + " **Please Mention/ID Same One!**")
+            .setFooter(`Request By ${message.author.tag}`).setTimestamp()
+        )
+        if (user.id === message.author.id) return message.reply(
+            new Discord.MessageEmbed().setColor("YELLOW")
+            .setDescription("⚠" + " **WTF Are You Doing ??**")
+            .setFooter(`Request By ${message.author.tag}`).setTimestamp()
+        )
+        if (user.id === client.user.id) return message.channel.send(
+            new Discord.MessageEmbed().setColor("YELLOW")
+            .setDescription("⚠" + " **WTF Are You Doing ??**")
+            .setFooter(`Request By ${message.author.tag}`).setTimestamp()
+        )
+        if (!message.guild.member(user).bannable) return message.reply(
+            new Discord.MessageEmbed().setColor("RED")
+            .setDescription("❌" + " **Soory I Can't Mute Same One High Than Me >_<**")
+            .setFooter(`Request By ${message.author.tag}`).setTimestamp()
+        )
+        let muteRole = message.guild.roles.cache.find(n => n.name === 'Muted')
+        if (!muteRole) {
+            message.guild.roles.create({
+                data: {
+                    name: "Muted",
+                }
+            }).then(async(role) => {
+                await message.guild.channels.cache.forEach(channel => {
+                    channel.overwritePermissions([{
+                        id: role.id,
+                        deny: ["SEND_MESSAGES"]
+                    }]);
+                })
+            })
+        }
+        user.roles.add(muteRole)
+        var time = message.content.split(' ')[2]
+        if (!time) time = '24h'
+        message.channel.send(new Discord.MessageEmbed().setColor("GREEN").setDescription("✅" + ` **${user} Has Ben Muted By <@!${message.author.id}>, For a ${ms(ms(time))}**`).setFooter(`Request By ${message.author.tag}`).setTimestamp())
+        setTimeout(() => {
+            user.roles.remove(muteRole);
+        }, ms(time));
+        return;
+    }
+})
+client.on('message', msg => {
+const error = "❌";
+const timeing = "⏱";
+const success = "✅";
+const lodeing = "🤔";
+  let args = msg.content.split(" ");
+  if (args[0] === prefix + 'unmute') {
+    if (msg.author.bot) return;
+    if (msg.channel.type == "dm") return msg.channel.send(new Discord.MessageEmbed().setColor("RED").setDescription(error + ` **You Can't Use This Command In DM's!**`).setFooter(`Request By ${msg.author.tag}`).setTimestamp())
+    if (!msg.member.hasPermission('MANAGE_ROLES')) return msg.channel.send(new Discord.MessageEmbed().setDescription(error + " **You Need `MANAGE_ROLES` Permission To Use This Command!**").setFooter(`Request By ${msg.author.tag}`).setTimestamp())
+    if (!msg.guild.me.hasPermission('MANAGE_ROLES')) return msg.channel.send(new Discord.MessageEmbed().setDescription(error + " **I Can't Kick Any Member In This Server Becuse I Don't Have `MANAGE_ROLES` Permission!**").setFooter(`Request By ${msg.author.tag}`).setTimestamp())
+    let user = msg.mentions.members.first()
+    if (!user) return msg.channel.send(new Discord.MessageEmbed().setDescription(error + " **Please Mention Same One!**").setFooter(`Request By ${msg.author.tag}`).setTimestamp())
+    if (user.id === msg.author.id) return msg.reply(new Discord.MessageEmbed().setDescription(lodeing + " **WTF Are You Doing ??**").setFooter(`Request By ${msg.author.tag}`).setTimestamp())
+    if (!msg.guild.member(user).bannable) return msg.reply(new Discord.MessageEmbed().setDescription(error + " **I Can't Unmute one high than me >_<**").setFooter(`Request By ${msg.author.tag}`).setTimestamp())
+    var muteRole = msg.guild.roles.cache.find(n => n.name === 'Muted')
+    if (!muteRole) return msg.channel.send(new Discord.MessageEmbed().setDescription(lodeing + ` **WTF Is That ?? [ Super Error ]**`).setFooter(`Request By ${msg.author.tag}`).setTimestamp())
+    user.roles.remove(muteRole)
+    msg.channel.send(lodeing + " **Processing The Unmute Function**").then((m) => {
+      m.edit(success + " **Processing is complete**")
+    })
+    msg.channel.send(new Discord.MessageEmbed().setDescription(success + ` **${user} Has Ben Unmuted By <@!${msg.author.id}>**`).setFooter(`Request By ${msg.author.tag}`).setTimestamp())
+  }
+})
 
 
 
