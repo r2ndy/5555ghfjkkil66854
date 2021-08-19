@@ -4,7 +4,11 @@ const client = new Discord.Client();
 
 const prefix = "#"
 //////////////
+client.on('ready', () => {
 
+    client.user.setActivity("Genius Server ",{type: 'Streaming'})
+
+});
 //////////////
 
 
